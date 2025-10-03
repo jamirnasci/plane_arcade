@@ -11,7 +11,6 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.lastShootTime = 0
         this.shootDelay = 500
-
         scene.add.existing(this)
         scene.physics.add.existing(this)
         this.setScale(0.2)
@@ -38,7 +37,8 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             bullet.setVisible(true)
             bullet.body.enable = true
             bullet.setScale(0.1)
-            bullet.setRotation(this.scene.player.rotation)
+            bullet.setRotation(this.scene.player.rotation)   
+            bullet.isPlayerBullet = false           
             // Calcula a velocidade com base na rotação do player
             const angle = Phaser.Math.Angle.Between(this.x, this.y, this.scene.player.x, this.scene.player.y);
             const speed = 1000

@@ -12,8 +12,9 @@ class MainScene extends Phaser.Scene {
     super({ key: 'MainScene' })
     this.player = null
     this.speed = 200
-    this.shootDelay = 100
+    this.shootDelay = 80
     this.lastShootTime = 0
+    this.life = 100
   }
   preload() {
     loadSprites(this)
@@ -22,13 +23,15 @@ class MainScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor('#65e0ffff')
     const screenWidth = this.sys.game.config.width
     const screenHeight = this.sys.game.config.height
-    this.physics.world.setBounds(0, 0, 6000, 4000)
 
+    this.physics.world.setBounds(0, 0, 6000, 4000)
+    this.input.addPointer(3)
+    this.sound.unlock()
     this.bg = this.add.tileSprite(0, 0, 6000, 4000, 'bg')
     this.bg.setOrigin(0, 0)
 
     loadHud(this, screenWidth, screenHeight)
-    this.player = new Player(this, 300, 400, 'player')
+    this.player = new Player(this, 300, 400, 'player2')
     this.cameras.main.setBounds(0, 0, 6000, 4000)
     this.cameras.main.startFollow(this.player, true, 0.08, 0.08)
 
@@ -60,11 +63,13 @@ class MainScene extends Phaser.Scene {
     this.planeEngineSound.play()
 
     this.physics.add.collider(this.enemys, this.bullets, this.hitEnemy, null, this)
+    this.physics.add.overlap(this.player, this.bullets, this.hitPlayer, null, this) // overlap detecta colisao, mas sem fisica
     this.physics.add.collider(this.enemys, this.player, this.endGame, null, this)
+
     this.cursors = this.input.keyboard.createCursorKeys()
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
-    this.add.text(10, 10, 'My Game Object', { fontSize: '24px', fill: '#000' })
+    this.lifeHud = this.add.text(10, 10, `Life ${this.life}`, { fontSize: '24px', fill: '#000' }).setScrollFactor(0)
   }
   update(time, delta) {
     const rotationSpeed = 0.05
@@ -97,10 +102,9 @@ class MainScene extends Phaser.Scene {
         this.player.body.acceleration
       )
     }
-    if (this.firePressed || this.spaceKey.isDown && time > this.lastShootTime + this.shootDelay) {
+    if ((this.firePressed || this.spaceKey.isDown) && time > this.lastShootTime + this.shootDelay) {
       this.player.shoot()
       this.lastShootTime = time
-      this.sound.play('shoot')
     }
 
     this.bullets.children.iterate((bullet) => {
@@ -130,18 +134,26 @@ class MainScene extends Phaser.Scene {
   }
 
   hitEnemy(enemy, bullet) {
-    enemy.anims.stop('enemy-walk')
-    
-    this.sound.play('explosion')
-    const explosion = new EnemyExplosion(this, enemy.x, enemy.y, 'enemy_explosion', enemy.rotation)
-    explosion.play()
+    if (bullet.isPlayerBullet) {
+      enemy.anims.stop('enemy-walk')
 
-    explosion.on('animationcomplete', ()=>{
-      explosion.destroy()
-    })
-    enemy.destroy()
-    
+      this.sound.play('explosion')
+      const explosion = new EnemyExplosion(this, enemy.x, enemy.y, 'enemy_explosion', enemy.rotation)
+      explosion.play()
+
+      explosion.on('animationcomplete', () => {
+        explosion.destroy()
+      })
+      enemy.destroy()
+    }
     bullet.destroy()
+  }
+  hitPlayer(player, bullet) {
+    if(!bullet.isPlayerBullet){
+      this.life -= 10
+      this.lifeHud.setText(`Life: ${this.life}`)
+      bullet.destroy()
+    }
   }
   endGame() {
     //this.scene.restart()

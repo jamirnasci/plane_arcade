@@ -3,7 +3,11 @@ export const loadSprites = (context) => {
         frameWidth: 247,
         frameHeight: 164
     })
-    context.load.image('bg', 'assets/img/bg.jpg')
+    context.load.spritesheet('player2', 'assets/img/player2.png', {
+        frameWidth: 306,
+        frameHeight: 271
+    })
+    context.load.image('bg', 'assets/img/sky.jpg')
     context.load.image('bullet', 'assets/img/bullet.png')
     context.load.image('right_arrow', 'assets/img/right_arrow.png')
     context.load.image('down_arrow', 'assets/img/down_arrow.png')
