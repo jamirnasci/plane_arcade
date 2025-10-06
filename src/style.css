@@ -2,3 +2,13 @@
   margin: 0;
   padding: 0;
 }
+body::-webkit-scrollbar {
+  display: none;
+}
+body {
+  scrollbar-width: none;
+}
+body {
+  overflow: hidden; /* Hides both horizontal and vertical scrollbars */
+  /* Or use overflow-x: hidden; for horizontal only, or overflow-y: hidden; for vertical only */
+}

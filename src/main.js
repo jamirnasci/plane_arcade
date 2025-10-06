@@ -5,6 +5,8 @@ import { Player } from "./sprites/player";
 import { Bullet } from "./sprites/bullet";
 import { Enemy } from "./sprites/enemy";
 import { EnemyExplosion } from "./sprites/enemyExplosion";
+import { Life } from "./sprites/life";
+import { Boss } from "./sprites/boss";
 
 class MainScene extends Phaser.Scene {
 
@@ -12,9 +14,11 @@ class MainScene extends Phaser.Scene {
     super({ key: 'MainScene' })
     this.player = null
     this.speed = 200
-    this.shootDelay = 80
+    this.shootDelay = 40
     this.lastShootTime = 0
     this.life = 100
+    this.enemysN = 5
+    this.enemysKilled = 0
   }
   preload() {
     loadSprites(this)
@@ -24,21 +28,21 @@ class MainScene extends Phaser.Scene {
     const screenWidth = this.sys.game.config.width
     const screenHeight = this.sys.game.config.height
 
-    this.physics.world.setBounds(0, 0, 6000, 4000)
+    this.physics.world.setBounds(0, 0, 1920, 960)
     this.input.addPointer(3)
     this.sound.unlock()
-    this.bg = this.add.tileSprite(0, 0, 6000, 4000, 'bg')
+    this.bg = this.add.tileSprite(0, 0, 1920, 960, 'bg')
     this.bg.setOrigin(0, 0)
 
     loadHud(this, screenWidth, screenHeight)
-    this.player = new Player(this, 300, 400, 'player2')
-    this.cameras.main.setBounds(0, 0, 6000, 4000)
+    this.player = new Player(this, 300, 400, 'player')
+    this.cameras.main.setBounds(0, 0, 1920, 960)
     this.cameras.main.startFollow(this.player, true, 0.08, 0.08)
-
+    //this.cameras.main.setZoom(1.2)
     this.enemys = this.physics.add.group({
-      classType: Enemy,
-      maxSize: 50,
-      defaultKey: 'enemy',
+      classType: Boss,
+      maxSize: this.enemysN,
+      defaultKey: 'boss1',
     })
     this.bullets = new Bullet(this)
 
@@ -53,23 +57,40 @@ class MainScene extends Phaser.Scene {
       loop: true,
       callback: this.spawnEnemys,
       callbackScope: this,
-      delay: 1000
+      delay: 5000
+    })
+
+    this.time.addEvent({
+      loop: true,
+      callbackScope: this,
+      callback: this.spawnLife,
+      delay: 10000
+    })
+
+    this.lifes = this.physics.add.group({
+      classType: Life,
+      maxSize: 10,
+      defaultKey: 'life'
     })
 
     this.planeEngineSound = this.sound.add('plane', {
       loop: true,
-      volume: 0.5
+      volume: 0.2
     })
     this.planeEngineSound.play()
 
     this.physics.add.collider(this.enemys, this.bullets, this.hitEnemy, null, this)
     this.physics.add.overlap(this.player, this.bullets, this.hitPlayer, null, this) // overlap detecta colisao, mas sem fisica
     this.physics.add.collider(this.enemys, this.player, this.endGame, null, this)
+    this.physics.add.overlap(this.player, this.lifes, this.addLife, null, this)
 
     this.cursors = this.input.keyboard.createCursorKeys()
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
-    this.lifeHud = this.add.text(10, 10, `Life ${this.life}`, { fontSize: '24px', fill: '#000' }).setScrollFactor(0)
+    this.lifeHud = this.add.text(120, 60, `❤️ ${this.life}`, { fontSize: '20px', fill: '#000', fontFamily: 'arial' })
+      .setScrollFactor(0)
+    this.killsHud = this.add.text(190, 60, `🗡️ ${this.enemysKilled}`, { fontSize: '20px', fill: '#000', fontFamily:'arial'})
+      .setScrollFactor(0)
   }
   update(time, delta) {
     const rotationSpeed = 0.05
@@ -91,7 +112,7 @@ class MainScene extends Phaser.Scene {
     if (this.upPressed || this.cursors.up.isDown) {
       this.physics.velocityFromRotation(
         this.player.rotation - 1.5,
-        500,
+        200,
         this.player.body.acceleration
       )
     }
@@ -117,24 +138,44 @@ class MainScene extends Phaser.Scene {
       enemy.updateBehavior(time)
     })
   }
+  spawnLife(){
+    const x = Math.floor(Math.random() * 1820)
+    const y = Math.floor(Math.random() * 900)
 
+    const life = this.lifes.get(x, y)
+    if(life){
+      life.body.enable = true
+    }
+  }
+  addLife(player, life){
+    if((this.life + 10) <= 100){
+      this.life += 10
+      this.lifeHud.setText(`❤️ ${this.life}`)
+    } else if((100 - this.life) <= 10){
+      this.life = 100
+      this.lifeHud.setText(`❤️ ${this.life}`)
+    }
+    life.destroy()
+  }
   spawnEnemys() {
-    const x = Math.floor(Math.random() * 5500)
-    const y = Math.floor(Math.random() * 3500)
+    const x = Math.floor(Math.random() * 1820)
+    const y = Math.floor(Math.random() * 900)
 
     const enemy = this.enemys.get(x, y)
-
+    
     if (enemy) {
       enemy.setActive(true)
       enemy.setVisible(true)
-      enemy.setScale(0.2)
       enemy.body.enable = true
-      this.physics.moveToObject(enemy, this.player, 300)
+      this.physics.moveToObject(enemy, this.player, 100)
     }
   }
 
   hitEnemy(enemy, bullet) {
     if (bullet.isPlayerBullet) {
+      enemy.body.enable = false
+      enemy.setVisible(false)
+      enemy.setMaxVelocity(0)
       enemy.anims.stop('enemy-walk')
 
       this.sound.play('explosion')
@@ -143,20 +184,37 @@ class MainScene extends Phaser.Scene {
 
       explosion.on('animationcomplete', () => {
         explosion.destroy()
+        enemy.destroy()
+        this.enemysKilled += 1
+        this.killsHud.setText(`🗡️ ${this.enemysKilled}`)
+        if (this.enemysKilled > this.enemysN) {
+          this.endGame()
+        }
       })
-      enemy.destroy()
     }
+
     bullet.destroy()
   }
   hitPlayer(player, bullet) {
-    if(!bullet.isPlayerBullet){
-      this.life -= 10
-      this.lifeHud.setText(`Life: ${this.life}`)
+    if (!bullet.isPlayerBullet) {
+      this.player.setTint(0xff0000)
+      this.life -= 5
+      this.lifeHud.setText(`❤️ ${this.life}`)
       bullet.destroy()
+      this.time.delayedCall(100, () => {
+        this.player.clearTint(); // Volta à cor normal
+      });
     }
   }
   endGame() {
-    //this.scene.restart()
+    /*
+    this.scene.pause()
+    const res = confirm('fim de jogo, deseja reiniciar ?')
+    if (res) {
+      this.enemysKilled = 0
+      this.life = 100
+      this.scene.restart()
+    }*/
   }
 }
 
@@ -169,7 +227,6 @@ const game = new Phaser.Game({
     default: 'arcade',
     arcade: {
       debug: false
-    },
-
+    }
   }
 })

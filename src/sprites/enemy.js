@@ -72,7 +72,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             const speed = 100;
             this.scene.physics.velocityFromRotation(angle, speed, this.body.velocity);
 
-            if (Math.abs(this.body.x - this.scene.player.x) <= 100 || Math.abs(this.body.y - this.scene.player.y) <= 100) {                
+            if (Math.abs(this.body.x - this.scene.player.x) <= 50 || Math.abs(this.body.y - this.scene.player.y) <= 50) {                
                 if (time > this.lastShootTime + this.shootDelay) {                
                     this.shootEnemy()
                     this.lastShootTime = time

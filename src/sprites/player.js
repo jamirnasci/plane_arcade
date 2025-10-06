@@ -21,28 +21,30 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         this.setScale(0.2)
         this.setDamping(false)
         this.setDrag(0)
-        this.setMaxVelocity(300)
+        this.setMaxVelocity(200)
         this.setCollideWorldBounds(true)
     }
     shoot() {
         const bullet = this.scene.bullets.get(this.x, this.y)
         if (bullet) {
+            this.scene.sound.play('shoot')
             bullet.setActive(true)
             bullet.setVisible(true)
+            bullet.setTexture('bullet')
             bullet.body.enable = true
             bullet.setScale(0.1)
             bullet.isPlayerBullet = true
+            bullet.rotation = this.scene.player.rotation
             // Calcula a velocidade com base na rotação do player
             const speed = 1000
             this.scene.physics.velocityFromRotation(
-                this.rotation + 4.7, // ângulo do player em radianos
+                this.rotation + (3 * Math.PI) / 2, // ângulo do player em radianos
                 speed,                // velocidade da bala
                 bullet.body.velocity  // define velocity x/y da bala
             )
 
             bullet.body.setCollideWorldBounds(false)
-            bullet.body.onWorldBounds = true
-            this.scene.sound.play('shoot')
+            bullet.body.onWorldBounds = true            
         }
     }
 }

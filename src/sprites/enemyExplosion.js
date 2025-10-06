@@ -19,8 +19,8 @@ export class EnemyExplosion extends Phaser.Physics.Arcade.Sprite {
         if (!scene.anims.exists('enemy-explosion')) {
             scene.anims.create({
                 key: 'enemy-explosion',
-                frames: scene.anims.generateFrameNumbers(texture, { start: 0, end: 3 }),
-                frameRate: 10,
+                frames: scene.anims.generateFrameNumbers(texture, { start: 0, end: 6 }),
+                frameRate: 15,
                 repeat: 0
             })
         }
