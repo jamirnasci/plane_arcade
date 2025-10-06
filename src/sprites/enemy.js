@@ -1,3 +1,5 @@
+import { EnemyExplosion } from "./enemyExplosion"
+
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
     /**
      * 
@@ -11,6 +13,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.lastShootTime = 0
         this.shootDelay = 500
+        this.life = 1
         scene.add.existing(this)
         scene.physics.add.existing(this)
         this.setScale(0.2)
@@ -30,15 +33,15 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
      * 
      * @param {Phaser.GameObjects.GameObject} enemy 
      */
-    shootEnemy() {        
+    shootEnemy() {
         const bullet = this.scene.bullets.get(this.x, this.y)
         if (bullet) {
             bullet.setActive(true)
             bullet.setVisible(true)
             bullet.body.enable = true
             bullet.setScale(0.1)
-            bullet.setRotation(this.scene.player.rotation)   
-            bullet.isPlayerBullet = false           
+            bullet.setRotation(this.scene.player.rotation)
+            bullet.isPlayerBullet = false
             // Calcula a velocidade com base na rotação do player
             const angle = Phaser.Math.Angle.Between(this.x, this.y, this.scene.player.x, this.scene.player.y);
             const speed = 1000
@@ -60,9 +63,9 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     updateBehavior(time) {
         if (this.active) {
             const angle = Phaser.Math.Angle.Between(
-                this.body.x, 
-                this.body.y, 
-                this.scene.player.x, 
+                this.body.x,
+                this.body.y,
+                this.scene.player.x,
                 this.scene.player.y
             );
 
@@ -72,8 +75,8 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             const speed = 100;
             this.scene.physics.velocityFromRotation(angle, speed, this.body.velocity);
 
-            if (Math.abs(this.body.x - this.scene.player.x) <= 50 || Math.abs(this.body.y - this.scene.player.y) <= 50) {                
-                if (time > this.lastShootTime + this.shootDelay) {                
+            if (Math.abs(this.body.x - this.scene.player.x) <= 50 || Math.abs(this.body.y - this.scene.player.y) <= 50) {
+                if (time > this.lastShootTime + this.shootDelay) {
                     this.shootEnemy()
                     this.lastShootTime = time
                 }
@@ -84,5 +87,22 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.setVisible(false)
         }
     }
-
+    /**
+     * 
+     * @param {number} n 
+     */
+    decrementLife(n) {
+        this.setTint(0xff0000)
+        this.life -= n
+        this.scene.time.delayedCall(100,
+            () => {
+                this.clearTint()
+            }
+        )
+    }
+    deathAnimation() {
+        const explosion = new EnemyExplosion(this.scene, this.x, this.y, 'enemy_explosion', this.rotation)
+        explosion.play()
+        return explosion
+    }
 }

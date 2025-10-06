@@ -17,7 +17,7 @@ class MainScene extends Phaser.Scene {
     this.shootDelay = 40
     this.lastShootTime = 0
     this.life = 100
-    this.enemysN = 5
+    this.enemysN = 2
     this.enemysKilled = 0
   }
   preload() {
@@ -40,9 +40,9 @@ class MainScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, 0.08, 0.08)
     //this.cameras.main.setZoom(1.2)
     this.enemys = this.physics.add.group({
-      classType: Boss,
+      classType: Enemy,
       maxSize: this.enemysN,
-      defaultKey: 'boss1',
+      defaultKey: 'enemy',
     })
     this.bullets = new Bullet(this)
 
@@ -53,7 +53,7 @@ class MainScene extends Phaser.Scene {
       }
     }, this);
 
-    this.time.addEvent({
+    this.enemysEvent = this.time.addEvent({
       loop: true,
       callback: this.spawnEnemys,
       callbackScope: this,
@@ -89,7 +89,7 @@ class MainScene extends Phaser.Scene {
 
     this.lifeHud = this.add.text(120, 60, `❤️ ${this.life}`, { fontSize: '20px', fill: '#000', fontFamily: 'arial' })
       .setScrollFactor(0)
-    this.killsHud = this.add.text(190, 60, `🗡️ ${this.enemysKilled}`, { fontSize: '20px', fill: '#000', fontFamily:'arial'})
+    this.killsHud = this.add.text(190, 60, `🗡️ ${this.enemysKilled}`, { fontSize: '20px', fill: '#000', fontFamily: 'arial' })
       .setScrollFactor(0)
   }
   update(time, delta) {
@@ -102,7 +102,7 @@ class MainScene extends Phaser.Scene {
         this.player.body.acceleration
       )
     }
-
+    /*controles*/
     if (this.leftPressed || this.cursors.left.isDown) {
       this.player.rotation -= rotationSpeed
     }
@@ -112,7 +112,7 @@ class MainScene extends Phaser.Scene {
     if (this.upPressed || this.cursors.up.isDown) {
       this.physics.velocityFromRotation(
         this.player.rotation - 1.5,
-        200,
+        1000,
         this.player.body.acceleration
       )
     }
@@ -127,7 +127,7 @@ class MainScene extends Phaser.Scene {
       this.player.shoot()
       this.lastShootTime = time
     }
-
+    //remove as balas que saem do mapa
     this.bullets.children.iterate((bullet) => {
       if (bullet && bullet.body.y <= 0 || bullet.body.x > 6000) {
         bullet.setActive(false)
@@ -137,21 +137,24 @@ class MainScene extends Phaser.Scene {
     this.enemys.children.iterate((enemy) => {
       enemy.updateBehavior(time)
     })
+    if (this.boss && this.boss.active) {
+      this.boss.updateBehavior(time)
+    }
   }
-  spawnLife(){
+  spawnLife() {
     const x = Math.floor(Math.random() * 1820)
     const y = Math.floor(Math.random() * 900)
 
     const life = this.lifes.get(x, y)
-    if(life){
+    if (life) {
       life.body.enable = true
     }
   }
-  addLife(player, life){
-    if((this.life + 10) <= 100){
+  addLife(player, life) {
+    if ((this.life + 10) <= 100) {
       this.life += 10
       this.lifeHud.setText(`❤️ ${this.life}`)
-    } else if((100 - this.life) <= 10){
+    } else if ((100 - this.life) <= 10) {
       this.life = 100
       this.lifeHud.setText(`❤️ ${this.life}`)
     }
@@ -162,7 +165,7 @@ class MainScene extends Phaser.Scene {
     const y = Math.floor(Math.random() * 900)
 
     const enemy = this.enemys.get(x, y)
-    
+
     if (enemy) {
       enemy.setActive(true)
       enemy.setVisible(true)
@@ -171,26 +174,36 @@ class MainScene extends Phaser.Scene {
     }
   }
 
+  /**
+   * 
+   * @param {Enemy} enemy 
+   * @param {Bullet} bullet 
+   */
   hitEnemy(enemy, bullet) {
     if (bullet.isPlayerBullet) {
-      enemy.body.enable = false
-      enemy.setVisible(false)
-      enemy.setMaxVelocity(0)
-      enemy.anims.stop('enemy-walk')
+      enemy.decrementLife(1)
+      
+      if (enemy.life <= 0) {
+        enemy.body.enable = false
+        enemy.setVisible(false)
+        enemy.setMaxVelocity(0)
+        enemy.anims.stop('enemy-walk')
+        this.sound.play('explosion')
+        const deathAnimation = enemy.deathAnimation()
 
-      this.sound.play('explosion')
-      const explosion = new EnemyExplosion(this, enemy.x, enemy.y, 'enemy_explosion', enemy.rotation)
-      explosion.play()
-
-      explosion.on('animationcomplete', () => {
-        explosion.destroy()
-        enemy.destroy()
-        this.enemysKilled += 1
-        this.killsHud.setText(`🗡️ ${this.enemysKilled}`)
-        if (this.enemysKilled > this.enemysN) {
-          this.endGame()
-        }
-      })
+        deathAnimation.on('animationcomplete', () => {
+          deathAnimation.destroy()
+          enemy.setActive(false)
+          enemy.destroy()
+          this.enemysKilled += 1
+          this.killsHud.setText(`🗡️ ${this.enemysKilled}`)
+          if (this.enemysKilled > this.enemysN && this.boss == undefined) {
+            this.enemysEvent.destroy()
+            this.spawnBoss()
+            this.endGame()
+          }
+        })
+      }      
     }
 
     bullet.destroy()
@@ -205,6 +218,11 @@ class MainScene extends Phaser.Scene {
         this.player.clearTint(); // Volta à cor normal
       });
     }
+  }
+  spawnBoss() {
+    this.boss = new Boss(this, 900, 500, 'boss1')
+    this.physics.add.collider(this.bullets, this.boss, this.hitEnemy, null, this)
+    //this.physics.moveToObject(this.boss, this.player, 100)
   }
   endGame() {
     /*
