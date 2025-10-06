@@ -4,9 +4,9 @@ import { loadHud } from "./hud/hud";
 import { Player } from "./sprites/player";
 import { Bullet } from "./sprites/bullet";
 import { Enemy } from "./sprites/enemy";
-import { EnemyExplosion } from "./sprites/enemyExplosion";
 import { Life } from "./sprites/life";
 import { Boss } from "./sprites/boss";
+import { Helicopter } from "./sprites/helicopter";
 
 class MainScene extends Phaser.Scene {
 
@@ -19,6 +19,7 @@ class MainScene extends Phaser.Scene {
     this.life = 100
     this.enemysN = 2
     this.enemysKilled = 0
+    this.playerDamage = 10
   }
   preload() {
     loadSprites(this)
@@ -40,9 +41,9 @@ class MainScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, 0.08, 0.08)
     //this.cameras.main.setZoom(1.2)
     this.enemys = this.physics.add.group({
-      classType: Enemy,
+      classType: Helicopter,
       maxSize: this.enemysN,
-      defaultKey: 'enemy',
+      defaultKey: 'helicopter',
     })
     this.bullets = new Bullet(this)
 
@@ -87,21 +88,14 @@ class MainScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys()
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
-    this.lifeHud = this.add.text(120, 60, `❤️ ${this.life}`, { fontSize: '20px', fill: '#000', fontFamily: 'arial' })
+    this.lifeHud = this.add.text(10, 10, `❤️ ${this.life}`, { fontSize: '30px', fill: '#000', fontFamily: '"Jersey 10", sans-serif' })
       .setScrollFactor(0)
-    this.killsHud = this.add.text(190, 60, `🗡️ ${this.enemysKilled}`, { fontSize: '20px', fill: '#000', fontFamily: 'arial' })
+    this.killsHud = this.add.text(90, 10, `🗡️ ${this.enemysKilled}/${this.enemysN}`, { fontSize: '30px', fill: '#000', fontFamily: '"Jersey 10", sans-serif' })
       .setScrollFactor(0)
   }
   update(time, delta) {
     const rotationSpeed = 0.05
 
-    if (this.player.body.velocity.x > 0 || this.player.body.velocity.y > 0) {
-      this.physics.velocityFromRotation(
-        (Math.PI) / 4,
-        100,
-        this.player.body.acceleration
-      )
-    }
     /*controles*/
     if (this.leftPressed || this.cursors.left.isDown) {
       this.player.rotation -= rotationSpeed
@@ -181,14 +175,14 @@ class MainScene extends Phaser.Scene {
    */
   hitEnemy(enemy, bullet) {
     if (bullet.isPlayerBullet) {
-      enemy.decrementLife(1)
+      enemy.decrementLife(this.playerDamage)
       
       if (enemy.life <= 0) {
         enemy.body.enable = false
         enemy.setVisible(false)
         enemy.setMaxVelocity(0)
         enemy.anims.stop('enemy-walk')
-        this.sound.play('explosion')
+        enemy.deathSound()
         const deathAnimation = enemy.deathAnimation()
 
         deathAnimation.on('animationcomplete', () => {
@@ -196,11 +190,12 @@ class MainScene extends Phaser.Scene {
           enemy.setActive(false)
           enemy.destroy()
           this.enemysKilled += 1
-          this.killsHud.setText(`🗡️ ${this.enemysKilled}`)
-          if (this.enemysKilled > this.enemysN && this.boss == undefined) {
+          if (this.enemysKilled >= this.enemysN && this.boss == undefined) {
             this.enemysEvent.destroy()
             this.spawnBoss()
-            this.endGame()
+            this.killsHud.setText('🗡️ BOSS')
+          }else{
+            this.killsHud.setText(`🗡️ ${this.enemysKilled}/${this.enemysN}`)            
           }
         })
       }      
@@ -220,7 +215,7 @@ class MainScene extends Phaser.Scene {
     }
   }
   spawnBoss() {
-    this.boss = new Boss(this, 900, 500, 'boss1')
+    this.boss = new Boss(this, 900, 500, 'a20b')
     this.physics.add.collider(this.bullets, this.boss, this.hitEnemy, null, this)
     //this.physics.moveToObject(this.boss, this.player, 100)
   }
@@ -241,6 +236,10 @@ const game = new Phaser.Game({
   width: window.innerWidth,
   height: window.innerHeight,
   scene: [MainScene],
+  scale:{
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH
+  },
   physics: {
     default: 'arcade',
     arcade: {

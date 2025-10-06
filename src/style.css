@@ -1,14 +1,23 @@
-*{
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&display=swap');
+
+* {
   margin: 0;
   padding: 0;
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
+
 body::-webkit-scrollbar {
   display: none;
 }
+
 body {
   scrollbar-width: none;
 }
+
 body {
-  overflow: hidden; /* Hides both horizontal and vertical scrollbars */
+  overflow: hidden;
+  /* Hides both horizontal and vertical scrollbars */
   /* Or use overflow-x: hidden; for horizontal only, or overflow-y: hidden; for vertical only */
 }

@@ -1,6 +1,6 @@
 import { EnemyExplosion } from "./enemy_explosion"
 
-export class Enemy extends Phaser.Physics.Arcade.Sprite {
+export class Helicopter extends Phaser.Physics.Arcade.Sprite {
     /**
      * 
      * @param {Phaser.Scene} scene 
@@ -41,6 +41,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             bullet.body.enable = true
             bullet.setScale(0.1)
             bullet.setRotation(this.scene.player.rotation)
+            bullet.setTexture('bullet3')
             bullet.isPlayerBullet = false
             // Calcula a velocidade com base na rotação do player
             const angle = Phaser.Math.Angle.Between(this.x, this.y, this.scene.player.x, this.scene.player.y);

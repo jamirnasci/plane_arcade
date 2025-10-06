@@ -1,5 +1,5 @@
+import { Boss1Explosion } from "./boss1_explosion"
 import { Bullet } from "./bullet"
-import { EnemyExplosion } from "./enemyExplosion"
 
 export class Boss extends Phaser.Physics.Arcade.Sprite {
     /**
@@ -15,11 +15,11 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
         this.setActive(true)
         this.setVisible(true)
-        this.setScale(0.5)
+        this.setScale(0.8)
         this.setCollideWorldBounds(true)
         this.shootDelay = 50
         this.lastShootTime = 0
-        this.life = 100
+        this.life = 10
         this.setDrag(0.1)
         if (!scene.anims.exists('boss-walk')) {
             scene.anims.create({
@@ -61,7 +61,7 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
         )
         const distanceOfPlayer = Phaser.Math.Distance.Between(this.scene.player.x, this.scene.player.y, this.x, this.y)
         console.log(distanceOfPlayer)
-        if ((this.shootDelay < (time - this.lastShootTime)) && distanceOfPlayer < 500) {
+        if ((this.shootDelay < (time - this.lastShootTime)) && distanceOfPlayer < 300) {
             this.shoot()
             this.lastShootTime = time
         }
@@ -76,8 +76,11 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
         )
     }
     deathAnimation() {
-        const explosion = new EnemyExplosion(this.scene, this.x, this.y, 'enemy_explosion', this.rotation)
+        const explosion = new Boss1Explosion(this.scene, this.x, this.y, 'boss1_explosion', this.rotation)
         explosion.play()
         return explosion
+    }
+    deathSound(){
+        this.scene.sound.play('big_explosion')
     }
 }
