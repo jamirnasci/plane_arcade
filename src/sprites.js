@@ -31,7 +31,9 @@ export const loadSprites = (context) => {
         frameHeight: 256,
         frameWidth: 327
     })
-    context.load.image('bg', 'assets/img/levels/bg.png')
+    context.load.image('unkranie', 'assets/img/levels/ukranie.png')
+    context.load.image('libia', 'assets/img/levels/libia.png')
+    context.load.image('japan', 'assets/img/levels/japan.jpg')
     context.load.image('bullet', 'assets/img/objects/bullet.png')
     context.load.image('bullet2', 'assets/img/objects/bullet2.png')
     context.load.image('bullet3', 'assets/img/objects/bullet3.png')

@@ -15,11 +15,10 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
         this.setActive(true)
         this.setVisible(true)
-        this.setScale(0.8)
-        this.setCollideWorldBounds(true)
+        this.setScale(0.8)       
         this.shootDelay = 50
-        this.lastShootTime = 0
-        this.life = 10
+        this.lastShootTime = 0       
+        this.isBoss = true 
         this.setDrag(0.1)
         if (!scene.anims.exists('boss-walk')) {
             scene.anims.create({
@@ -31,36 +30,54 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
         }
         this.anims.play('boss-walk', true)
     }
+    /**
+ * 
+ * @param {number} bulletDamage 
+ */
+    setDamage(bulletDamage = 1) {
+        this.bulletDamage = bulletDamage
+    }
+    /**
+     * 
+     * @param {number} life 
+     */
+    setLife(life){
+        this.life = life
+    }
     shoot() {
         /** @type {Bullet} */
         const bullet = this.scene.bullets.get(this.x, this.y)
         if (bullet) {
             bullet.setActive(true)
             bullet.setVisible(true)
+            bullet.body.enable = true
             bullet.setScale(0.1)
             bullet.setTexture('bullet2')
             bullet.setRotation(this.rotation)
+            bullet.bulletDamage = this.bulletDamage
+            bullet.isPlayerBullet = false
+
             this.scene.physics.velocityFromRotation(
                 this.rotation + (3 * Math.PI) / 2,
                 500,
                 bullet.body.velocity
             )
+            bullet.body.setCollideWorldBounds(false)
             bullet.body.onWorldBounds = true
         }
     }
     updateBehavior(time) {
-        const angle = Phaser.Math.Angle.Between(this.scene.player.x, this.scene.player.y, this.x, this.y)
+        const angle = Phaser.Math.Angle.Between(this.body.x, this.body.y, this.scene.player.x, this.scene.player.y)
 
-        const frontAngle = angle + 3 * Math.PI / 2
-        this.setRotation(frontAngle)
-
+        this.rotation = angle + Math.PI / 2
+        this.setMaxVelocity(100)
         this.scene.physics.velocityFromRotation(
-            frontAngle,
+            angle,
             100,
-            this.body.velocity
+            this.body.acceleration
         )
         const distanceOfPlayer = Phaser.Math.Distance.Between(this.scene.player.x, this.scene.player.y, this.x, this.y)
-        console.log(distanceOfPlayer)
+        
         if ((this.shootDelay < (time - this.lastShootTime)) && distanceOfPlayer < 300) {
             this.shoot()
             this.lastShootTime = time
@@ -80,7 +97,7 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
         explosion.play()
         return explosion
     }
-    deathSound(){
+    deathSound() {
         this.scene.sound.play('big_explosion')
     }
 }

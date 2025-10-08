@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>End Game</title>
+    <link rel="stylesheet" href="./src/style.css">
+</head>
+<style>
+    body{
+        background-image: url('./public/assets/img/menu/menu_bg.png');
+        background-repeat: no-repeat;
+    }
+
+    #endgame-screen {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        padding: 50px;
+        background-color: rgba(0, 0, 0, 0.85);
+        border-radius: 10px;
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .game-over-title {
+        font-size: 6rem;
+        color: #ff3333;
+        /* Vermelho Arcade */
+        text-shadow: 0 0 10px #ff0000, 0 0 20px #990000;
+        margin-bottom: 40px;
+    }
+
+    .stats-container {
+        margin-bottom: 40px;
+        font-size: 2rem;
+        line-height: 1.5;
+        color: white;
+    }
+
+    .stats-container span {
+        color: #ffcc00;
+        /* Amarelo Vibrante para os valores */
+        font-weight: bold;
+        margin-left: 10px;        
+    }
+
+    /* Reutilizando estilos de botão (com pequena adaptação para a tela) */
+    #endgame-screen button {
+        width: 280px;
+        margin: 10px;
+        /* Adaptação para o estilo do botão na tela de Game Over */
+        background-color: #ff3333;
+        box-shadow: 0 5px #aa0000;
+    }
+
+    #endgame-screen button:hover {
+        background-color: #e60000;
+        box-shadow: 0 7px #770000;
+    }
+
+    #endgame-screen button:active {
+        box-shadow: 0 2px #770000;
+        transform: translateY(3px);
+    }
+
+    button {
+        width: 300px;
+        padding: 15px 30px;
+        font-size: 2rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: limegreen;
+        /* Cor ciano/neon */
+        color: white;
+        border: none;
+        letter-spacing: 2px;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+        box-shadow: 0 5px green;
+    }
+</style>
+
+<body>
+    <div id="endgame-screen" class="hidden">
+        <h1 class="game-over-title" id="game-over-title">GAME OVER</h1>
+
+        <div class="stats-container">
+            <p>Kills: <span id="final-kills">0</span></p>
+            <p>Coins: <span id="final-coins">0</span></p>
+        </div>
+
+        <button onclick="startGame()">Play Again</button>
+        <button onclick="goToMenu()">Menu</button>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search)
+        const result = params.get('result')
+
+        const gameOverTitle = document.getElementById('game-over-title')
+        if(result == 'win'){
+            gameOverTitle.style.color = 'lime'
+            gameOverTitle.innerHTML = 'Win'
+            gameOverTitle.style.textShadow = '0 0 10px lime, 0 0 20px darkgreen'
+        }else{
+
+        }
+        function hideAllScreens() {
+            document.getElementById('game-menu').classList.add('hidden');
+            document.getElementById('settings-screen').classList.add('hidden');
+            document.getElementById('endgame-screen').classList.add('hidden');
+        }
+
+        // 1. Iniciar o Jogo (Esconde Menu, mostra Jogo)
+        function startGame() {
+            location.href = 'game.html'
+        }
+
+        // 2. Fim do Jogo (Mostra Tela de Game Over)
+        function endTheGame(kills, coins) {
+            hideAllScreens();
+
+            // Atualiza os valores na tela de Game Over
+            document.getElementById('final-kills').textContent = kills;
+            document.getElementById('final-coins').textContent = coins;
+
+            // Mostra a tela de Game Over
+            document.getElementById('endgame-screen').classList.remove('hidden');
+        }
+
+        // 3. Voltar ao Menu Principal (Chamado da tela de Game Over)
+        function goToMenu() {
+            location.href = 'index.html'
+        }
+
+        // Inicialização: Garante que apenas o menu principal esteja visível ao carregar
+        document.addEventListener('DOMContentLoaded', () => {
+            hideAllScreens(); // Esconde todas
+            document.getElementById('game-menu').classList.remove('hidden'); // Mostra apenas o menu
+            // Certifica-se de que o botão de "Voltar ao Menu" nas configurações funcione
+            document.querySelector('#settings-screen button[onclick="closeSettings()"]').onclick = goToMenu;
+        });
+    </script>
+</body>
+
+</html>
+</body>
+
+</html>

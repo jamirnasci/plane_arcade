@@ -7,6 +7,11 @@ import { Enemy } from "./sprites/enemy";
 import { Life } from "./sprites/life";
 import { Boss } from "./sprites/boss";
 import { Helicopter } from "./sprites/helicopter";
+import { LEVELS } from "./levels";
+
+const params = new URLSearchParams(window.location.search)
+
+const level = parseInt(params.get('level'))
 
 class MainScene extends Phaser.Scene {
 
@@ -17,8 +22,10 @@ class MainScene extends Phaser.Scene {
     this.shootDelay = 40
     this.lastShootTime = 0
     this.life = 100
-    this.enemysN = 2
+    this.level = LEVELS.list[level]
+    this.enemysN = this.level.enemyN
     this.enemysKilled = 0
+    this.bossKilled = 0
     this.playerDamage = 10
   }
   preload() {
@@ -32,7 +39,7 @@ class MainScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, 1920, 960)
     this.input.addPointer(3)
     this.sound.unlock()
-    this.bg = this.add.tileSprite(0, 0, 1920, 960, 'bg')
+    this.bg = this.add.tileSprite(0, 0, 1920, 960, this.level.background)
     this.bg.setOrigin(0, 0)
 
     loadHud(this, screenWidth, screenHeight)
@@ -41,9 +48,16 @@ class MainScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, 0.08, 0.08)
     //this.cameras.main.setZoom(1.2)
     this.enemys = this.physics.add.group({
-      classType: Helicopter,
+      classType: Enemy,
       maxSize: this.enemysN,
-      defaultKey: 'helicopter',
+      defaultKey: this.level.enemy,
+      collideWorldBounds: true
+    })
+    this.bossGroup = this.physics.add.group({
+      classType: Boss,
+      maxSize: this.level.bossN,
+      defaultKey: this.level.boss,
+      collideWorldBounds: true
     })
     this.bullets = new Bullet(this)
 
@@ -58,7 +72,7 @@ class MainScene extends Phaser.Scene {
       loop: true,
       callback: this.spawnEnemys,
       callbackScope: this,
-      delay: 5000
+      delay: 1000
     })
 
     this.time.addEvent({
@@ -81,9 +95,11 @@ class MainScene extends Phaser.Scene {
     this.planeEngineSound.play()
 
     this.physics.add.collider(this.enemys, this.bullets, this.hitEnemy, null, this)
+    this.physics.add.collider(this.bossGroup, this.bullets, this.hitEnemy, null, this)
     this.physics.add.overlap(this.player, this.bullets, this.hitPlayer, null, this) // overlap detecta colisao, mas sem fisica
-    this.physics.add.collider(this.enemys, this.player, this.endGame, null, this)
+    this.physics.add.collider(this.enemys, this.player, this.playerAndEnemy, null, this)
     this.physics.add.overlap(this.player, this.lifes, this.addLife, null, this)
+    this.physics.add.collider(this.bossGroup, this.bossGroup)
 
     this.cursors = this.input.keyboard.createCursorKeys()
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
@@ -131,9 +147,9 @@ class MainScene extends Phaser.Scene {
     this.enemys.children.iterate((enemy) => {
       enemy.updateBehavior(time)
     })
-    if (this.boss && this.boss.active) {
-      this.boss.updateBehavior(time)
-    }
+    this.bossGroup.children.iterate((boss) => {
+      boss.updateBehavior(time)
+    })
   }
   spawnLife() {
     const x = Math.floor(Math.random() * 1820)
@@ -158,11 +174,16 @@ class MainScene extends Phaser.Scene {
     const x = Math.floor(Math.random() * 1820)
     const y = Math.floor(Math.random() * 900)
 
+    /**
+     * @type {Enemy}
+     */
     const enemy = this.enemys.get(x, y)
 
     if (enemy) {
       enemy.setActive(true)
       enemy.setVisible(true)
+      enemy.setDamage(this.level.enemyDamage)
+      enemy.setLife(this.level.enemyLife)
       enemy.body.enable = true
       this.physics.moveToObject(enemy, this.player, 100)
     }
@@ -170,13 +191,13 @@ class MainScene extends Phaser.Scene {
 
   /**
    * 
-   * @param {Enemy} enemy 
+   * @param {Enemy | Boss} enemy 
    * @param {Bullet} bullet 
    */
   hitEnemy(enemy, bullet) {
     if (bullet.isPlayerBullet) {
       enemy.decrementLife(this.playerDamage)
-      
+
       if (enemy.life <= 0) {
         enemy.body.enable = false
         enemy.setVisible(false)
@@ -190,23 +211,42 @@ class MainScene extends Phaser.Scene {
           enemy.setActive(false)
           enemy.destroy()
           this.enemysKilled += 1
-          if (this.enemysKilled >= this.enemysN && this.boss == undefined) {
+          if (enemy.isBoss) {
+            this.bossKilled += 1
+            console.log(this.bossKilled)
+          }
+          if (this.bossKilled >= this.level.bossN) {
+            this.endGame('win')
+          }
+          if (this.enemysKilled >= this.enemysN && this.bossGroup.active) {
             this.enemysEvent.destroy()
             this.spawnBoss()
             this.killsHud.setText('🗡️ BOSS')
-          }else{
-            this.killsHud.setText(`🗡️ ${this.enemysKilled}/${this.enemysN}`)            
+          }
+
+          if (!this.boss) {
+            this.killsHud.setText(`🗡️ ${this.enemysKilled}/${this.enemysN}`)
           }
         })
-      }      
+      }
     }
 
     bullet.destroy()
   }
+  /**
+   * 
+   * @param {Player} player 
+   * @param {Bullet} bullet 
+   */
   hitPlayer(player, bullet) {
+    if (this.life <= 0) {
+      //colocar a animacao do player morrendo
+      this.endGame('loss')
+    }
     if (!bullet.isPlayerBullet) {
       this.player.setTint(0xff0000)
-      this.life -= 5
+      this.life -= bullet.bulletDamage
+
       this.lifeHud.setText(`❤️ ${this.life}`)
       bullet.destroy()
       this.time.delayedCall(100, () => {
@@ -215,11 +255,34 @@ class MainScene extends Phaser.Scene {
     }
   }
   spawnBoss() {
-    this.boss = new Boss(this, 900, 500, 'a20b')
-    this.physics.add.collider(this.bullets, this.boss, this.hitEnemy, null, this)
-    //this.physics.moveToObject(this.boss, this.player, 100)
+    for (let i = 0; i <= this.level.bossN; i++) {
+      const x = Math.floor(Math.random() * 1820)
+      const y = Math.floor(Math.random() * 900)
+      /** @type {Boss} */
+      const boss = this.bossGroup.get(x, y)
+      if (boss) {
+        boss.setVisible(true)
+        boss.setActive(true)
+        boss.setDamage(10)
+        boss.setLife(this.level.bossLife)
+        boss.body.enable = true
+        this.physics.moveToObject(boss, this.player, 100)
+      }
+    }
+    this.bossGroup.setActive(false)
   }
-  endGame() {
+  playerAndEnemy() {
+    this.life -= 50
+    this.player.setTint(0xff0000)
+    this.time.delayedCall(100, () => {
+      this.player.clearTint(); // Volta à cor normal
+    });
+  }
+  endGame(result) {
+    this.scene.pause()
+    this.player.setVelocity(0)
+    this.player.setActive(false)
+    location.href = `endgame.html?result=${result}`
     /*
     this.scene.pause()
     const res = confirm('fim de jogo, deseja reiniciar ?')
@@ -236,7 +299,7 @@ const game = new Phaser.Game({
   width: window.innerWidth,
   height: window.innerHeight,
   scene: [MainScene],
-  scale:{
+  scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },

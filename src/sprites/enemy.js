@@ -13,7 +13,6 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
 
         this.lastShootTime = 0
         this.shootDelay = 500
-        this.life = 1
         scene.add.existing(this)
         scene.physics.add.existing(this)
         this.setScale(0.2)
@@ -31,7 +30,15 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
     /**
      * 
+     * @param {number} bulletDamage 
+     */
+    setDamage(bulletDamage = 1) {
+        this.bulletDamage = bulletDamage
+    }
+    /**
+     * 
      * @param {Phaser.GameObjects.GameObject} enemy 
+     * @param {number} bulletDamage
      */
     shootEnemy() {
         const bullet = this.scene.bullets.get(this.x, this.y)
@@ -42,6 +49,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             bullet.setScale(0.1)
             bullet.setRotation(this.scene.player.rotation)
             bullet.isPlayerBullet = false
+            bullet.bulletDamage = this.bulletDamage
             // Calcula a velocidade com base na rotação do player
             const angle = Phaser.Math.Angle.Between(this.x, this.y, this.scene.player.x, this.scene.player.y);
             const speed = 1000
@@ -73,7 +81,8 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
 
             // move o inimigo nessa direção
             const speed = 100;
-            this.scene.physics.velocityFromRotation(angle, speed, this.body.velocity);
+            this.setMaxVelocity(100)
+            this.scene.physics.velocityFromRotation(angle, speed, this.body.acceleration);
 
             if (Math.abs(this.body.x - this.scene.player.x) <= 50 || Math.abs(this.body.y - this.scene.player.y) <= 50) {
                 if (time > this.lastShootTime + this.shootDelay) {
@@ -82,10 +91,13 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         }
-        if (this && this.body.y <= 0 || this.body.x > 6000) {
+        if (this && this.body.y <= 0 || this.body.x > 1920) {
             this.setActive(false)
             this.setVisible(false)
         }
+    }
+    setLife(life) {
+        this.life = life
     }
     /**
      * 
@@ -105,7 +117,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         explosion.play()
         return explosion
     }
-    deathSound(){
+    deathSound() {
         this.scene.sound.play('explosion')
     }
 }
