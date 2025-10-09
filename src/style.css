@@ -8,11 +8,11 @@
   font-style: normal;
 }
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   display: none;
 }
 
-body {
+* {
   scrollbar-width: none;
 }
 

@@ -80,7 +80,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             this.rotation = angle + Math.PI / 2; // +π/2 se o sprite do inimigo "aponta pra cima"
 
             // move o inimigo nessa direção
-            const speed = 100;
+            const speed = 500;
             this.setMaxVelocity(100)
             this.scene.physics.velocityFromRotation(angle, speed, this.body.acceleration);
 

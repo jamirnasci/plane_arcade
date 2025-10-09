@@ -20,10 +20,13 @@
         transform: translate(-50%, -50%);
         text-align: center;
         padding: 50px;
-        background-color: rgba(0, 0, 0, 0.85);
+        background-color: rgba(0, 0, 0, 0.5);
         border-radius: 10px;
-        width: 90%;
-        max-width: 600px;
+        max-width: 250px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
     }
 
     .game-over-title {
@@ -96,12 +99,14 @@
         </div>
 
         <button onclick="startGame()">Play Again</button>
+        <button onclick="goToLevels()">Levels</button>
         <button onclick="goToMenu()">Menu</button>
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search)
         const result = params.get('result')
+        const kills = params.get('kills')
 
         const gameOverTitle = document.getElementById('game-over-title')
         if(result == 'win'){
@@ -111,15 +116,22 @@
         }else{
 
         }
+        if(kills){
+            document.getElementById('final-kills').innerHTML = kills
+        }
         function hideAllScreens() {
             document.getElementById('game-menu').classList.add('hidden');
             document.getElementById('settings-screen').classList.add('hidden');
             document.getElementById('endgame-screen').classList.add('hidden');
         }
 
+        function goToLevels(){
+            location.href = 'level_selection.html'
+        }
+
         // 1. Iniciar o Jogo (Esconde Menu, mostra Jogo)
         function startGame() {
-            location.href = 'game.html'
+            history.back()
         }
 
         // 2. Fim do Jogo (Mostra Tela de Game Over)

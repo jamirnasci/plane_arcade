@@ -1,36 +1,217 @@
-class Level {
-    /**
-     *
-     * @param {string} background
-     * @param {string|null} boss
-     * @param {number} bossN
-     * @param {string} enemy
-     * @param {number} enemyN
-     * @param {number} enemyDamage
-     */
-    constructor(background, boss, bossN, bossLife, enemy, enemyN, enemyDamage, enemyLife) {
-        this.background = background
-        this.boss = boss
-        this.bossN = bossN
-        this.enemy = enemy
-        this.bossLife = bossLife
-        this.enemyLife = enemyLife
-        this.enemyN = enemyN
-        this.enemyDamage = enemyDamage
-    }
-}
-
 export class LEVELS {
     static list = [
-        new Level('libia', null, 0, 0,'enemy', 20, 1, 10),
-        new Level('libia', null, 0, 0, 'enemy', 30, 1, 10),
-        new Level('libia', null, 0, 0, 'enemy', 50, 1, 10),
-        new Level('libia', 'boss1', 1, 100, 'enemy', 35, 1, 10),
-        new Level('libia', 'boss1', 1, 100, 'helicopter', 40, 1, 15),
-        new Level('libia', 'boss1', 2, 100, 'helicopter', 20, 1, 15),
-        new Level('libia', 'boss1', 2, 100, 'enemy', 50, 1, 10),
-        new Level('libia', 'boss1', 2, 100, 'helicopter', 45, 1, 15),
-        new Level('libia', 'boss1', 4, 100, 'enemy', 5, 1, 10)
+        {
+            background: 'libia',
+            boss: null,
+            bossN: 0,
+            bossLife: 0,
+            enemy: 'enemy',
+            enemyN: 20,
+            enemyDamage: 1,
+            enemyLife: 10
+        },
+        {
+            background: 'libia',
+            boss: null,
+            bossN: 0,
+            bossLife: 0,
+            enemy: 'enemy',
+            enemyN: 30,
+            enemyDamage: 1,
+            enemyLife: 10
+        },
+        {
+            background: 'libia',
+            boss: null,
+            bossN: 0,
+            bossLife: 0,
+            enemy: 'enemy',
+            enemyN: 50,
+            enemyDamage: 1,
+            enemyLife: 10
+        },
+        {
+            background: 'libia',
+            boss: 'boss1',
+            bossN: 1,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 35,
+            enemyDamage: 1,
+            enemyLife: 10
+        },
+        {
+            background: 'libia',
+            boss: 'boss1',
+            bossN: 1,
+            bossLife: 100,
+            enemy: 'helicopter',
+            enemyN: 40,
+            enemyDamage: 1,
+            enemyLife: 15
+        },
+        {
+            background: 'libia',
+            boss: 'boss1',
+            bossN: 2,
+            bossLife: 100,
+            enemy: 'helicopter',
+            enemyN: 20,
+            enemyDamage: 1,
+            enemyLife: 15
+        },
+        {
+            background: 'libia',
+            boss: 'boss1',
+            bossN: 2,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 50,
+            enemyDamage: 1,
+            enemyLife: 10
+        },
+        {
+            background: 'libia',
+            boss: 'boss1',
+            bossN: 2,
+            bossLife: 100,
+            enemy: 'helicopter',
+            enemyN: 45,
+            enemyDamage: 1,
+            enemyLife: 15
+        },
+        {
+            background: 'libia',
+            boss: 'boss1',
+            bossN: 4,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 5,
+            enemyDamage: 1,
+            enemyLife: 10
+        },
+        {
+            background: 'libia',
+            boss: 'boss1',
+            bossN: 4,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 5,
+            enemyDamage: 1,
+            enemyLife: 10
+        },
+        //japan
+        {
+            background: 'japan',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 10
+        },
+        {
+            background: 'japan',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 10
+        },
+        {
+            background: 'japan',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 10
+        },
+        {
+            background: 'japan',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 10
+        },
+        {
+            background: 'japan',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 10
+        },
+        {
+            background: 'japan',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 10
+        },
+        {
+            background: 'japan',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 10
+        },
+        {
+            background: 'japan',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 10
+        },
+        {
+            background: 'japan',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 10
+        },
+        {
+            background: 'japan',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 10
+        },
+        // ukranie
+                {
+            background: 'ukranie',
+            boss: 'boss1',
+            bossN: null,
+            bossLife: 100,
+            enemy: 'enemy',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 20
+        },
     ]
 }
 

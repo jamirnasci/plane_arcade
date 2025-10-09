@@ -53,13 +53,18 @@ class MainScene extends Phaser.Scene {
       defaultKey: this.level.enemy,
       collideWorldBounds: true
     })
-    this.bossGroup = this.physics.add.group({
-      classType: Boss,
-      maxSize: this.level.bossN,
-      defaultKey: this.level.boss,
-      collideWorldBounds: true
-    })
-    this.bullets = new Bullet(this)
+     this.bullets = new Bullet(this)
+    if (this.level.boss) {
+      this.bossGroup = this.physics.add.group({
+        classType: Boss,
+        maxSize: this.level.bossN,
+        defaultKey: this.level.boss,
+        collideWorldBounds: true
+      })
+      this.physics.add.collider(this.bossGroup, this.bullets, this.hitEnemy, null, this)
+      this.physics.add.collider(this.bossGroup, this.bossGroup)
+      
+    }   
 
     this.physics.world.on('worldbounds', (body) => {
       // Verifica se o objeto do corpo pertence ao seu grupo de balas
@@ -95,11 +100,9 @@ class MainScene extends Phaser.Scene {
     this.planeEngineSound.play()
 
     this.physics.add.collider(this.enemys, this.bullets, this.hitEnemy, null, this)
-    this.physics.add.collider(this.bossGroup, this.bullets, this.hitEnemy, null, this)
     this.physics.add.overlap(this.player, this.bullets, this.hitPlayer, null, this) // overlap detecta colisao, mas sem fisica
     this.physics.add.collider(this.enemys, this.player, this.playerAndEnemy, null, this)
     this.physics.add.overlap(this.player, this.lifes, this.addLife, null, this)
-    this.physics.add.collider(this.bossGroup, this.bossGroup)
 
     this.cursors = this.input.keyboard.createCursorKeys()
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
@@ -147,9 +150,11 @@ class MainScene extends Phaser.Scene {
     this.enemys.children.iterate((enemy) => {
       enemy.updateBehavior(time)
     })
-    this.bossGroup.children.iterate((boss) => {
-      boss.updateBehavior(time)
-    })
+    if (this.level.boss) {
+      this.bossGroup.children.iterate((boss) => {
+        boss.updateBehavior(time)
+      })
+    }
   }
   spawnLife() {
     const x = Math.floor(Math.random() * 1820)
@@ -211,17 +216,23 @@ class MainScene extends Phaser.Scene {
           enemy.setActive(false)
           enemy.destroy()
           this.enemysKilled += 1
-          if (enemy.isBoss) {
-            this.bossKilled += 1
-            console.log(this.bossKilled)
+          if (this.level.boss) {
+            if (enemy.isBoss) {
+              this.bossKilled += 1
+              console.log(this.bossKilled)
+            }
+            if (this.bossKilled >= this.level.bossN) {
+              this.endGame('win')
+            }
+            if (this.enemysKilled >= this.enemysN && this.bossGroup.active) {
+              this.enemysEvent.destroy()
+              this.spawnBoss()
+              this.killsHud.setText('🗡️ BOSS')
+            }
           }
-          if (this.bossKilled >= this.level.bossN) {
+
+          if(this.enemysKilled >= this.level.enemyN && !this.level.boss){
             this.endGame('win')
-          }
-          if (this.enemysKilled >= this.enemysN && this.bossGroup.active) {
-            this.enemysEvent.destroy()
-            this.spawnBoss()
-            this.killsHud.setText('🗡️ BOSS')
           }
 
           if (!this.boss) {
@@ -282,7 +293,7 @@ class MainScene extends Phaser.Scene {
     this.scene.pause()
     this.player.setVelocity(0)
     this.player.setActive(false)
-    location.href = `endgame.html?result=${result}`
+    location.href = `endgame.html?result=${result}&kills=${this.enemysKilled}`
     /*
     this.scene.pause()
     const res = confirm('fim de jogo, deseja reiniciar ?')

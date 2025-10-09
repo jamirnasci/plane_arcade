@@ -16,7 +16,7 @@
         /* Use uma fonte mais "Game" se tiver uma! */
         background-image: url('./public/assets/img/menu/menu_bg.png');
         background-repeat: no-repeat;
-        background-size: contain;
+        background-size: cover;
         /* Azul Escuro */
         color: #ffffff;
         display: flex;
@@ -30,12 +30,34 @@
     #game-menu {
         text-align: center;
         padding: 40px;
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(0, 0, 0, 0.3);
         /* Fundo semi-transparente para destaque */
         border-radius: 10px;
-        max-width: 500px;
-        max-height: 500px;
-        overflow: auto;
+        max-width: 300px;
+    }
+
+    .menu-top {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+    }
+
+    #back-menu-btn {
+        height: 50px;
+        width: 50px;        
+        font-size: 1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        background-color: limegreen;
+        /* Cor ciano/neon */
+        color: white;
+        border: none;
+        letter-spacing: 2px;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+        box-shadow: 0 2px green;
     }
 
     /* Título do Jogo */
@@ -56,6 +78,8 @@
         list-style: none;
         padding: 0;
         margin: 0;
+        max-height: 350px;
+        overflow: auto;
     }
 
     .menu-buttons li {
@@ -65,7 +89,7 @@
     /* Estilizando os Botões */
     .menu-buttons button,
     #settings-screen button {
-        width: 200px;
+        width: 120px;
         padding: 15px 30px;
         font-size: 2rem;
         font-weight: bold;
@@ -134,23 +158,20 @@
 <body>
 
     <div id="game-menu">
+        <div class="menu-top">
+            <button id="back-menu-btn" onclick="backMenu()">Menu</button>
+        </div>
         <h1 class="game-title">LEVELS</h1>
 
-        <ul class="menu-buttons" id="menu-buttons">            
+        <ul class="menu-buttons" id="menu-buttons">
         </ul>
-
-        <div id="settings-screen" class="hidden">
-            <h2>Configurações</h2>
-            <p>Opções de volume e controle virão aqui.</p>
-            <button onclick="closeSettings()">Voltar ao Menu</button>
-        </div>
     </div>
 
     <script>
 
         const levelsBox = document.getElementById('menu-buttons')
 
-        for(let i = 0; i < 30; i++){
+        for (let i = 0; i < 30; i++) {
             let color = i >= 10 && i <= 20 ? 'orange' : i >= 20 && i < 30 ? 'seagreen' : 'limegreen'
             levelsBox.innerHTML += `
                 <li><button style="background-color: ${color};" id="btn-new-game" onclick="startGame(${i})">${i + 1}</button></li>
@@ -159,6 +180,10 @@
         // Função para Iniciar o Jogo
         function startGame(levelN) {
             location.href = 'game.html?level=' + levelN
+        }
+
+        function backMenu(){
+            window.history.back()
         }
 
         // Função para Abrir a Tela de Configurações

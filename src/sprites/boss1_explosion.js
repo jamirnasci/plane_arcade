@@ -12,7 +12,7 @@ export class Boss1Explosion extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this)
         scene.physics.add.existing(this)
         this.rotation = rotation
-        this.setScale(0.5)
+        this.setScale(0.8)
         if(!this.scene.anims.exists('boss1_explosion')){
             this.scene.anims.create({
                 key: 'boss1_explosion',
