@@ -113,7 +113,7 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         )
     }
     deathAnimation() {
-        const explosion = new EnemyExplosion(this.scene, this.x, this.y, 'enemy_explosion', this.rotation)
+        const explosion = new EnemyExplosion(this.scene, this.x, this.y, 'bf109_explosion', this.rotation)
         explosion.play()
         return explosion
     }

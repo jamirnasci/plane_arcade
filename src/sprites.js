@@ -1,50 +1,40 @@
-/**
- * 
- * @param {Phaser.Scene} context 
- */
-export const loadSprites = (context) => {
-    context.load.spritesheet('player', 'assets/img/players/player.png', {
-        frameWidth: 256,
-        frameHeight: 256
-    })
-    context.load.spritesheet('enemy', 'assets/img/enemys/enemy.png', {
-        frameWidth: 256,
-        frameHeight: 256
-    })
-    context.load.spritesheet('enemy_explosion', 'assets/img/enemys/enemy_explosion.png', {
-        frameWidth: 256,
-        frameHeight: 256
-    })
-    context.load.spritesheet('boss1', 'assets/img/enemys/boss1.png', {
-        frameHeight: 256,
-        frameWidth: 453
-    })
-    context.load.spritesheet('boss1_explosion', 'assets/img/enemys/boss1_explosion.png', {
-        frameHeight: 256,
-        frameWidth: 453
-    })
-    context.load.spritesheet('helicopter', 'assets/img/enemys/helicopter.png', {
-        frameHeight: 256,
-        frameWidth: 256
-    })
-    context.load.spritesheet('a20b', 'assets/img/enemys/a20b.png', {
-        frameHeight: 256,
-        frameWidth: 327
-    })
-    context.load.image('unkranie', 'assets/img/levels/ukranie.png')
-    context.load.image('libia', 'assets/img/levels/libia.png')
-    context.load.image('japan', 'assets/img/levels/japan.jpg')
-    context.load.image('bullet', 'assets/img/objects/bullet.png')
-    context.load.image('bullet2', 'assets/img/objects/bullet2.png')
-    context.load.image('bullet3', 'assets/img/objects/bullet3.png')
-    context.load.image('right_arrow', 'assets/img/hud/right_arrow.png')
-    context.load.image('down_arrow', 'assets/img/hud/down_arrow.png')
-    context.load.image('left_arrow', 'assets/img/hud/left_arrow.png')
-    context.load.image('up_arrow', 'assets/img/hud/up_arrow.png')
-    context.load.image('fire_btn', 'assets/img/hud/fire_btn.png')
-    context.load.image('life', 'assets/img/objects/life.png')
-    context.load.audio('shoot', 'assets/audio/shoot.mp3')
-    context.load.audio('explosion', 'assets/audio/explosion.mp3')
-    context.load.audio('big_explosion', 'assets/audio/big_explosion.mp3')
-    context.load.audio('plane', 'assets/audio/plane-engine.mp3')
+/** *
+  * @param {Phaser.Scene} scene  */
+export const loadSprites = (scene) => {
+    //players
+    scene.load.spritesheet('hawker', 'assets/img/players/hawker.png', {frameWidth: 289, frameHeight: 256})
+    scene.load.spritesheet('hawker_explosion', 'assets/img/players/hawker_explosion.png', {frameWidth: 289, frameHeight: 256})
+    scene.load.spritesheet('bf109', 'assets/img/enemys/bf109.png', {frameWidth: 256,frameHeight: 256})
+    scene.load.spritesheet('bf109_explosion', 'assets/img/enemys/bf109_explosion.png', {frameWidth: 256,frameHeight: 256})
+    scene.load.spritesheet('helicopter', 'assets/img/enemys/helicopter.png', {frameWidth: 256,frameHeight: 256})
+    scene.load.spritesheet('helicopter_explosion', 'assets/img/enemys/helicopter_explosion.png', {frameWidth: 256,frameHeight: 256})
+    scene.load.spritesheet('hellcat', 'assets/img/enemys/hellcat.png', {frameWidth: 330,frameHeight: 256})
+    scene.load.spritesheet('hellcat_explosion', 'assets/img/enemys/hellcat_explosion.png', {frameWidth: 330,frameHeight: 256})
+    scene.load.spritesheet('yak3', 'assets/img/enemys/yak3.png', {frameWidth: 256,frameHeight: 256})
+    scene.load.spritesheet('yak3_explosion', 'assets/img/enemys/yak3_explosion.png', {frameWidth: 256,frameHeight: 256})
+    //boss
+    scene.load.spritesheet('boss1', 'assets/img/enemys/boss1.png', {frameHeight: 256,frameWidth: 453})
+    scene.load.spritesheet('boss1_explosion', 'assets/img/enemys/boss1_explosion.png', {frameHeight: 256,frameWidth: 453})
+    scene.load.spritesheet('helicopter_enemy', 'assets/img/enemys/helicopter_enemy.png', {frameHeight: 256,frameWidth: 256})
+    scene.load.spritesheet('a20b', 'assets/img/enemys/a20b.png', {frameHeight: 256,frameWidth: 327})
+    //maps
+    scene.load.image('unkranie', 'assets/img/levels/ukranie.png')
+    scene.load.image('libia', 'assets/img/levels/libia.png')
+    scene.load.image('japan', 'assets/img/levels/japan.jpg')
+    //hud
+    scene.load.image('right_arrow', 'assets/img/hud/right_arrow.png')
+    scene.load.image('down_arrow', 'assets/img/hud/down_arrow.png')
+    scene.load.image('left_arrow', 'assets/img/hud/left_arrow.png')
+    scene.load.image('up_arrow', 'assets/img/hud/up_arrow.png')
+    scene.load.image('fire_btn', 'assets/img/hud/fire_btn.png')
+    //objects
+    scene.load.image('bullet', 'assets/img/objects/bullet.png')
+    scene.load.image('bullet2', 'assets/img/objects/bullet2.png')
+    scene.load.image('bullet3', 'assets/img/objects/bullet3.png')
+    scene.load.image('life', 'assets/img/objects/life.png')
+    //audio
+    scene.load.audio('shoot', 'assets/audio/shoot.mp3')
+    scene.load.audio('explosion', 'assets/audio/explosion.mp3')
+    scene.load.audio('big_explosion', 'assets/audio/big_explosion.mp3')
+    scene.load.audio('plane', 'assets/audio/plane-engine.mp3')
 }

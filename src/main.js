@@ -43,7 +43,7 @@ class MainScene extends Phaser.Scene {
     this.bg.setOrigin(0, 0)
 
     loadHud(this, screenWidth, screenHeight)
-    this.player = new Player(this, 300, 400, 'player')
+    this.player = new Player(this, 300, 400, 'hawker')
     this.cameras.main.setBounds(0, 0, 1920, 960)
     this.cameras.main.startFollow(this.player, true, 0.08, 0.08)
     //this.cameras.main.setZoom(1.2)
@@ -250,9 +250,16 @@ class MainScene extends Phaser.Scene {
    * @param {Bullet} bullet 
    */
   hitPlayer(player, bullet) {
-    if (this.life <= 0) {
+    if (this.life <= 0 && this.player.active) {
       //colocar a animacao do player morrendo
-      this.endGame('loss')
+      const enemyAnimation = this.player.deathAnimation()
+      this.sound.play('big_explosion')
+      this.time.delayedCall(1000, ()=>{
+        this.player.setActive(false)
+        this.player.setVisible(false)        
+        this.endGame('loss')
+      })
+      //enemyAnimation.on('animationcomplete', ()=>{})
     }
     if (!bullet.isPlayerBullet) {
       this.player.setTint(0xff0000)

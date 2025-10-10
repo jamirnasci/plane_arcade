@@ -5,7 +5,7 @@ export class LEVELS {
             boss: null,
             bossN: 0,
             bossLife: 0,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 20,
             enemyDamage: 1,
             enemyLife: 10
@@ -15,7 +15,7 @@ export class LEVELS {
             boss: null,
             bossN: 0,
             bossLife: 0,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 30,
             enemyDamage: 1,
             enemyLife: 10
@@ -25,7 +25,7 @@ export class LEVELS {
             boss: null,
             bossN: 0,
             bossLife: 0,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 50,
             enemyDamage: 1,
             enemyLife: 10
@@ -35,7 +35,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: 1,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 35,
             enemyDamage: 1,
             enemyLife: 10
@@ -65,7 +65,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: 2,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 50,
             enemyDamage: 1,
             enemyLife: 10
@@ -85,7 +85,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: 4,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 5,
             enemyDamage: 1,
             enemyLife: 10
@@ -95,7 +95,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: 4,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 5,
             enemyDamage: 1,
             enemyLife: 10
@@ -106,7 +106,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -116,7 +116,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -126,7 +126,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -136,7 +136,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -146,7 +146,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -156,7 +156,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -166,7 +166,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -176,7 +176,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -186,7 +186,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -196,7 +196,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -207,7 +207,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'enemy',
+            enemy: 'bf109',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 20

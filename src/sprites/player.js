@@ -18,6 +18,18 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         })
         this.anims.play('player-walk', true)
 
+        if(!scene.anims.exists('player_explosion')){
+            scene.anims.create({
+                key: 'player_explosion',
+                frames: scene.anims.generateFrameNumbers('hawker_explosion', {
+                    start: 0,
+                    end: 6
+                }),
+                frameRate: 15,
+                repeat: 0
+            })
+        }
+
         this.setScale(0.2)
         this.setDamping(false)
         this.setDrag(0)
@@ -46,5 +58,8 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
             bullet.body.setCollideWorldBounds(false)
             bullet.body.onWorldBounds = true            
         }
+    }
+    deathAnimation(){
+        return this.anims.play('player_explosion', true)
     }
 }
