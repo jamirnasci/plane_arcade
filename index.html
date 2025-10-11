@@ -134,7 +134,7 @@
     <ul class="menu-buttons">
       <li><button id="btn-new-game" onclick="startGame()">Play</button></li>
       <li><button id="btn-settings" onclick="openSettings()">Settings</button></li>
-      <li><button id="btn-highscores" onclick="viewHighscores()">Planes</button></li>
+      <li><button id="btn-highscores" onclick="planeSelection()">Planes</button></li>
       <li><button id="btn-quit" onclick="quitGame()">Exit</button></li>
     </ul>
 
@@ -172,8 +172,8 @@
     }
 
     // Funções de placeholder para as outras opções
-    function viewHighscores() {
-      alert("Tela de Recordes. Seus melhores pilotos estarão aqui!");
+    function planeSelection() {
+      window.location.href = 'plane_selection.html'
     }
 
     function quitGame() {

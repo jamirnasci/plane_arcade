@@ -4,6 +4,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
      * @param {number} x
      * @param {number} y
      * @param {string} texture
+     * @param {string} explosionTexture
     */
     constructor(scene, x, y, texture) {
         super(scene, x, y, texture)
@@ -18,22 +19,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         })
         this.anims.play('player-walk', true)
 
-        if(!scene.anims.exists('player_explosion')){
-            scene.anims.create({
-                key: 'player_explosion',
-                frames: scene.anims.generateFrameNumbers('hawker_explosion', {
-                    start: 0,
-                    end: 6
-                }),
-                frameRate: 15,
-                repeat: 0
-            })
-        }
-
         this.setScale(0.2)
         this.setDamping(false)
         this.setDrag(0)
-        this.setMaxVelocity(200)
         this.setCollideWorldBounds(true)
     }
     shoot() {
@@ -42,7 +30,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
             this.scene.sound.play('shoot')
             bullet.setActive(true)
             bullet.setVisible(true)
-            bullet.setTexture('bullet')
+            bullet.setTexture(this.bulletTexture)
             bullet.body.enable = true
             bullet.setScale(0.1)
             bullet.isPlayerBullet = true
@@ -56,10 +44,28 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
             )
 
             bullet.body.setCollideWorldBounds(false)
-            bullet.body.onWorldBounds = true            
+            bullet.body.onWorldBounds = true
         }
     }
-    deathAnimation(){
+    deathAnimation() {
+        console.log(this.explosionTexture)
         return this.anims.play('player_explosion', true)
+    }
+    setExplosionTexture(texture) {
+        this.explosionTexture = texture
+        if (!this.scene.anims.exists('player_explosion')) {
+            this.scene.anims.create({
+                key: 'player_explosion',
+                frames: this.scene.anims.generateFrameNumbers(this.explosionTexture, {
+                    start: 0,
+                    end: 6
+                }),
+                frameRate: 15,
+                repeat: 0
+            })
+        }
+    }
+    setBulletTexture(texture) {
+        this.bulletTexture = texture
     }
 }

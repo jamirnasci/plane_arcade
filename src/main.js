@@ -8,6 +8,7 @@ import { Life } from "./sprites/life";
 import { Boss } from "./sprites/boss";
 import { Helicopter } from "./sprites/helicopter";
 import { LEVELS } from "./levels";
+import { PLANES } from "./planes";
 
 const params = new URLSearchParams(window.location.search)
 
@@ -21,12 +22,12 @@ class MainScene extends Phaser.Scene {
     this.speed = 200
     this.shootDelay = 40
     this.lastShootTime = 0
-    this.life = 100
     this.level = LEVELS.list[level]
     this.enemysN = this.level.enemyN
     this.enemysKilled = 0
     this.bossKilled = 0
     this.playerDamage = 10
+    this.plane = PLANES[2]
   }
   preload() {
     loadSprites(this)
@@ -43,7 +44,13 @@ class MainScene extends Phaser.Scene {
     this.bg.setOrigin(0, 0)
 
     loadHud(this, screenWidth, screenHeight)
-    this.player = new Player(this, 300, 400, 'hawker')
+
+    this.player = new Player(this, 300, 400, this.plane.texture)
+    this.player.setMaxVelocity(this.plane.maxVelocity)
+    this.player.setExplosionTexture(this.plane.explosionTexture)
+    this.player.setBulletTexture(this.plane.bulletTexture)
+    this.life = this.plane.life
+
     this.cameras.main.setBounds(0, 0, 1920, 960)
     this.cameras.main.startFollow(this.player, true, 0.08, 0.08)
     //this.cameras.main.setZoom(1.2)
@@ -201,7 +208,7 @@ class MainScene extends Phaser.Scene {
    */
   hitEnemy(enemy, bullet) {
     if (bullet.isPlayerBullet) {
-      enemy.decrementLife(this.playerDamage)
+      enemy.decrementLife(this.plane.damage)
 
       if (enemy.life <= 0) {
         enemy.body.enable = false
@@ -290,7 +297,7 @@ class MainScene extends Phaser.Scene {
     this.bossGroup.setActive(false)
   }
   playerAndEnemy() {
-    this.life -= 50
+    this.life -= 1
     this.player.setTint(0xff0000)
     this.time.delayedCall(100, () => {
       this.player.clearTint(); // Volta à cor normal

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plane Arcade - Menu Principal</title>
-  <link rel="stylesheet" href="./src/style.css">
+  <link rel="stylesheet" href="./src/style.css">  
 </head>
 <style>
   /* Reset Básico */
@@ -16,7 +16,7 @@
     /* Use uma fonte mais "Game" se tiver uma! */
     background-image: url('./public/assets/img/menu/menu_bg.png');
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     /* Azul Escuro */
     color: #ffffff;
     display: flex;
@@ -32,6 +32,7 @@
     padding: 40px;
     background-color: rgba(0, 0, 0, 0.7);
     /* Fundo semi-transparente para destaque */
+    max-width: 250px;
     border-radius: 10px;
   }
 
@@ -46,18 +47,26 @@
   }
 
   /* Estilizando a lista de botões */
-  .menu-buttons {
+  .planes-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    flex-wrap: wrap;
   }
 
-  .menu-buttons li {
-    margin-bottom: 20px;
+  .plane-card{
+    padding: 10px;
+    background-color: black;
+    border-radius: 10px;
+    min-width: 200px;
+    margin: 5px;
+    box-shadow: 0 0 5px lime;
   }
 
   /* Estilizando os Botões */
-  .menu-buttons button,
   #settings-screen button {
     width: 300px;
     padding: 15px 30px;
@@ -77,22 +86,6 @@
     /* Sombra "3D" do botão */
   }
 
-  /* Efeito Hover nos Botões */
-  .menu-buttons button:hover,
-  #settings-screen button:hover {
-    background-color: #00e5e5;
-    box-shadow: 0 7px #0077aa;
-    /* Sombra mais profunda */
-    transform: translateY(-2px);
-  }
-
-  /* Efeito de Clique (Active) */
-  .menu-buttons button:active,
-  #settings-screen button:active {
-    box-shadow: 0 2px #0077aa;
-    transform: translateY(3px);
-    /* Movimenta para simular o clique */
-  }
 
   #btn-quit{
     background-color: red;
@@ -128,13 +121,10 @@
 <body>
 
   <div id="game-menu">
-    <h1 class="game-title">LEVELS</h1>
+    <h1 class="game-title">PLANES</h1>
 
-    <ul class="menu-buttons">
-      <li><button id="btn-new-game" onclick="startGame()">Play</button></li>
-      <li><button id="btn-settings" onclick="openSettings()">Settings</button></li>
-      <li><button id="btn-highscores" onclick="viewHighscores()">Planes</button></li>
-      <li><button id="btn-quit" onclick="quitGame()">Exit</button></li>
+    <ul class="planes-list" id="planes-list">
+      
     </ul>
 
     <div id="settings-screen" class="hidden">
@@ -143,13 +133,26 @@
       <button onclick="closeSettings()">Voltar ao Menu</button>
     </div>
   </div>
-
-  <script>
+  <script type="module">
+    import {PLANES} from "./src/planes.js";
+    
+    const planesList = document.getElementById('planes-list')
+    
+    PLANES.forEach((plane, i) => {
+      planesList.innerHTML += `
+        <div class="plane-card" onclick="selectPlane(${i})">
+          <strong>${plane.texture}</strong>
+        </div>
+      `
+    });
     // Função para Iniciar o Jogo
     function startGame() {
       location.href = 'level_selection.html'
     }
-
+    function selectPlane(planeIndex){
+      localStorage.setItem('plane', planeIndex.toString())
+      window.history.back()
+    }
     // Função para Abrir a Tela de Configurações
     function openSettings() {
       // Esconde os botões do menu principal

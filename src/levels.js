@@ -8,7 +8,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 20,
             enemyDamage: 1,
-            enemyLife: 10
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -18,7 +18,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 30,
             enemyDamage: 1,
-            enemyLife: 10
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -28,7 +28,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 50,
             enemyDamage: 1,
-            enemyLife: 10
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -38,7 +38,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 35,
             enemyDamage: 1,
-            enemyLife: 10
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -48,7 +48,7 @@ export class LEVELS {
             enemy: 'helicopter',
             enemyN: 40,
             enemyDamage: 1,
-            enemyLife: 15
+            enemyLife: 8
         },
         {
             background: 'libia',
@@ -58,7 +58,7 @@ export class LEVELS {
             enemy: 'helicopter',
             enemyN: 20,
             enemyDamage: 1,
-            enemyLife: 15
+            enemyLife: 8
         },
         {
             background: 'libia',
@@ -68,7 +68,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 50,
             enemyDamage: 1,
-            enemyLife: 10
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -78,7 +78,7 @@ export class LEVELS {
             enemy: 'helicopter',
             enemyN: 45,
             enemyDamage: 1,
-            enemyLife: 15
+            enemyLife: 8
         },
         {
             background: 'libia',
@@ -88,7 +88,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 5,
             enemyDamage: 1,
-            enemyLife: 10
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -98,7 +98,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 5,
             enemyDamage: 1,
-            enemyLife: 10
+            enemyLife: 5
         },
         //japan
         {
