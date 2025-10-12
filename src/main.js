@@ -13,6 +13,11 @@ import { PLANES } from "./planes";
 const params = new URLSearchParams(window.location.search)
 
 const level = parseInt(params.get('level'))
+let selectedPlane = localStorage.getItem('plane')
+if(!selectedPlane){
+  selectedPlane = 0
+}
+
 
 class MainScene extends Phaser.Scene {
 
@@ -27,7 +32,7 @@ class MainScene extends Phaser.Scene {
     this.enemysKilled = 0
     this.bossKilled = 0
     this.playerDamage = 10
-    this.plane = PLANES[2]
+    this.plane = PLANES[parseInt(selectedPlane)]
   }
   preload() {
     loadSprites(this)
@@ -196,6 +201,7 @@ class MainScene extends Phaser.Scene {
       enemy.setVisible(true)
       enemy.setDamage(this.level.enemyDamage)
       enemy.setLife(this.level.enemyLife)
+      enemy.setExplosionTexture(this.level.enemyExplosion)
       enemy.body.enable = true
       this.physics.moveToObject(enemy, this.player, 100)
     }
@@ -238,7 +244,7 @@ class MainScene extends Phaser.Scene {
             }
           }
 
-          if(this.enemysKilled >= this.level.enemyN && !this.level.boss){
+          if(this.enemysKilled >= this.level.enemyN && !this.level.boss){            
             this.endGame('win')
           }
 

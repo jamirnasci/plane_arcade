@@ -16,9 +16,9 @@ export class EnemyExplosion extends Phaser.Physics.Arcade.Sprite {
         this.setScale(0.2)
         this.rotation = rotation
 
-        if (!scene.anims.exists('bf109_explosion')) {
+        if (!scene.anims.exists('enemy_explosion')) {
             scene.anims.create({
-                key: 'bf109_explosion',
+                key: 'enemy_explosion',
                 frames: scene.anims.generateFrameNumbers(texture, { start: 0, end: 6 }),
                 frameRate: 15,
                 repeat: 0
@@ -26,6 +26,6 @@ export class EnemyExplosion extends Phaser.Physics.Arcade.Sprite {
         }
     }
     play(){
-        this.anims.play('bf109_explosion', true)
+        this.anims.play('enemy_explosion', true)
     }
 }

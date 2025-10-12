@@ -5,9 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plane Arcade - Menu Principal</title>
-  <link rel="stylesheet" href="./src/style.css">  
+  <link rel="stylesheet" href="./src/style.css">
 </head>
 <style>
+  /* ... (Estilos CSS omitidos para brevidade, mantenha-os como estão) ... */
+
   /* Reset Básico */
   body {
     margin: 0;
@@ -57,13 +59,14 @@
     flex-wrap: wrap;
   }
 
-  .plane-card{
+  .plane-card {
     padding: 10px;
     background-color: black;
     border-radius: 10px;
     min-width: 200px;
     margin: 5px;
     box-shadow: 0 0 5px lime;
+    cursor: pointer; /* Adicionado para indicar que é clicável */
   }
 
   /* Estilizando os Botões */
@@ -87,7 +90,7 @@
   }
 
 
-  #btn-quit{
+  #btn-quit {
     background-color: red;
     color: white;
     box-shadow: 0 5px darkred;
@@ -124,68 +127,112 @@
     <h1 class="game-title">PLANES</h1>
 
     <ul class="planes-list" id="planes-list">
-      
+
     </ul>
 
     <div id="settings-screen" class="hidden">
       <h2>Configurações</h2>
       <p>Opções de volume e controle virão aqui.</p>
-      <button onclick="closeSettings()">Voltar ao Menu</button>
+      <button id="btn-close-settings">Voltar ao Menu</button>
     </div>
   </div>
   <script type="module">
+    // Importe PLANES de "./src/planes.js"
     import {PLANES} from "./src/planes.js";
-    
+
     const planesList = document.getElementById('planes-list')
+    const settingsScreen = document.getElementById('settings-screen');
+    const btnCloseSettings = document.getElementById('btn-close-settings');
+    // Você também precisa de referências para os elementos do menu principal se for mostrar/esconder
+    const gameTitle = document.querySelector('.game-title');
+    // NOTA: Não existe um elemento com a classe .menu-buttons no seu HTML.
+    // Vou assumir que você queria o .game-menu ou talvez criar um div para os botões. 
+    // Por enquanto, vou omitir a parte do .menu-buttons
     
-    PLANES.forEach((plane, i) => {
-      planesList.innerHTML += `
-        <div class="plane-card" onclick="selectPlane(${i})">
-          <strong>${plane.texture}</strong>
-        </div>
-      `
-    });
-    // Função para Iniciar o Jogo
-    function startGame() {
-      location.href = 'level_selection.html'
-    }
-    function selectPlane(planeIndex){
+    // --- Funções de Handler ---
+
+    // Função para Selecionar o Avião
+    function selectPlane(planeIndex) {
       localStorage.setItem('plane', planeIndex.toString())
+      // Como você está voltando, parece que esta tela é para SELEÇÃO de avião
+      // Se for para iniciar o jogo após a seleção, use: location.href = 'level_selection.html'
+      // Se for apenas para retornar à tela anterior:
       window.history.back()
     }
+
     // Função para Abrir a Tela de Configurações
     function openSettings() {
-      // Esconde os botões do menu principal
-      document.querySelector('.menu-buttons').classList.add('hidden');
-      document.querySelector('.game-title').classList.add('hidden');
+      // Esconde o título (se houver mais elementos, esconda-os também)
+      gameTitle.classList.add('hidden');
+      planesList.classList.add('hidden'); // Esconder a lista de aviões
 
       // Mostra a tela de configurações
-      document.getElementById('settings-screen').classList.remove('hidden');
+      settingsScreen.classList.remove('hidden');
     }
 
     // Função para Fechar a Tela de Configurações
     function closeSettings() {
       // Esconde a tela de configurações
-      document.getElementById('settings-screen').classList.add('hidden');
+      settingsScreen.classList.add('hidden');
 
-      // Mostra os botões do menu principal
-      document.querySelector('.menu-buttons').classList.remove('hidden');
-      document.querySelector('.game-title').classList.remove('hidden');
+      // Mostra o título e a lista de aviões
+      gameTitle.classList.remove('hidden');
+      planesList.classList.remove('hidden');
     }
 
-    // Funções de placeholder para as outras opções
+    // Funções de placeholder
+    function startGame() {
+      location.href = 'level_selection.html'
+    }
     function viewHighscores() {
       alert("Tela de Recordes. Seus melhores pilotos estarão aqui!");
     }
-
     function quitGame() {
       alert("Obrigado por jogar Plane Arcade!");
-      // Em um jogo real, isso pode fechar o aplicativo ou voltar para uma tela inicial do launcher.
     }
 
+
+    // --- Inicialização e Adição de Event Listeners ---
+
+    // 1. Renderiza os Cards e Adiciona Listeners
+    PLANES.forEach((plane, i) => {
+      // Cria o elemento Div e define seus atributos
+      const planeCard = document.createElement('div');
+      planeCard.classList.add('plane-card');
+      // Guarda o índice para uso no Listener
+      planeCard.dataset.planeIndex = i;
+      planeCard.innerHTML = `<strong>${plane.texture}</strong>`;
+      
+      // ADICIONA O EVENT LISTENER DE FORMA PROGRAMÁTICA
+      planeCard.addEventListener('click', () => selectPlane(i));
+
+      planesList.appendChild(planeCard);
+    });
+    
+    // Se o botão "Voltar ao Menu" da tela de configurações for criado no HTML,
+    // adicione o listener:
+    if (btnCloseSettings) {
+        btnCloseSettings.addEventListener('click', closeSettings);
+    }
+    
+    // As funções openSettings, startGame, viewHighscores, e quitGame 
+    // também precisariam ser anexadas a botões usando event listeners,
+    // já que não é possível usar onclick="..." no HTML para funções de módulo.
+
+    // Exemplo para um botão de Iniciar Jogo (Se você tivesse um no HTML)
+    /*
+    const btnStart = document.getElementById('btn-start-game'); 
+    if (btnStart) {
+        btnStart.addEventListener('click', startGame);
+    }
+    */
+    
     // Inicia o menu (garante que as configurações estejam escondidas ao carregar)
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('settings-screen').classList.add('hidden');
+      settingsScreen.classList.add('hidden');
+      
+      // Correção para botões que você já definiu como placeholder no JS, mas não usou no HTML
+      // Se esta tela for puramente a tela de seleção de aviões, ela pode não ter botões de menu.
     });
   </script>
 </body>

@@ -37,6 +37,6 @@ export const PLANES = [
         damage: 4,
         life: 250,
         maxVelocity: 350,
-        bulletTexture: 'bullet'
+        bulletTexture: 'bullet2'
     }
 ]

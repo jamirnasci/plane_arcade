@@ -15,13 +15,17 @@ export const loadSprites = (scene) => {
     //enemys
     scene.load.spritesheet('bf109', 'assets/img/enemys/bf109.png', {frameWidth: 256,frameHeight: 256})
     scene.load.spritesheet('bf109_explosion', 'assets/img/enemys/bf109_explosion.png', {frameWidth: 256,frameHeight: 256})
+    scene.load.spritesheet('helicopter_enemy', 'assets/img/enemys/helicopter_enemy.png', {frameWidth: 256,frameHeight: 256})
+    scene.load.spritesheet('helicopter_enemy_explosion', 'assets/img/enemys/helicopter_enemy_explosion.png', {frameWidth: 256,frameHeight: 256})
+    scene.load.spritesheet('fw190', 'assets/img/enemys/fw190.png', {frameWidth: 265,frameHeight: 256})
+    scene.load.spritesheet('fw190_explosion', 'assets/img/enemys/fw190_explosion.png', {frameWidth: 265,frameHeight: 256})
     //boss
     scene.load.spritesheet('boss1', 'assets/img/enemys/boss1.png', {frameHeight: 256,frameWidth: 453})
     scene.load.spritesheet('boss1_explosion', 'assets/img/enemys/boss1_explosion.png', {frameHeight: 256,frameWidth: 453})
     scene.load.spritesheet('helicopter_enemy', 'assets/img/enemys/helicopter_enemy.png', {frameHeight: 256,frameWidth: 256})
     scene.load.spritesheet('a20b', 'assets/img/enemys/a20b.png', {frameHeight: 256,frameWidth: 327})
     //maps
-    scene.load.image('unkranie', 'assets/img/levels/ukranie.png')
+    scene.load.image('ukranie', 'assets/img/levels/ukranie.png')
     scene.load.image('libia', 'assets/img/levels/libia.png')
     scene.load.image('japan', 'assets/img/levels/japan.jpg')
     //hud
