@@ -1,3 +1,5 @@
+import { Explosion } from "./explosion"
+
 export class Player extends Phaser.Physics.Arcade.Sprite {
     /**
      * @param {Phaser.Scene} scene 
@@ -48,8 +50,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
     deathAnimation() {
-        console.log(this.explosionTexture)
-        return this.anims.play('player_explosion', true)
+        const explosion = new Explosion(this.scene, this.x, this.y, 'explosion_sprite')
+        explosion.play()
+        return explosion
     }
     setExplosionTexture(texture) {
         this.explosionTexture = texture

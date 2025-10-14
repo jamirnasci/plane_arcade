@@ -8,8 +8,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 20,
             enemyDamage: 1,
-            enemyLife: 5,
-            enemyExplosion: 'bf109_explosion'
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -19,8 +18,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 30,
             enemyDamage: 1,
-            enemyLife: 5,
-            enemyExplosion: 'bf109_explosion'
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -30,8 +28,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 50,
             enemyDamage: 1,
-            enemyLife: 5,
-            enemyExplosion: 'bf109_explosion'
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -41,8 +38,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 35,
             enemyDamage: 1,
-            enemyLife: 5,
-            enemyExplosion: 'bf109_explosion'
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -52,8 +48,7 @@ export class LEVELS {
             enemy: 'helicopter_enemy',
             enemyN: 40,
             enemyDamage: 1,
-            enemyLife: 8,
-            enemyExplosion: 'helicopte_explosion'
+            enemyLife: 8
         },
         {
             background: 'libia',
@@ -63,8 +58,7 @@ export class LEVELS {
             enemy: 'helicopter_enemy',
             enemyN: 20,
             enemyDamage: 1,
-            enemyLife: 8,
-            enemyExplosion: 'helicopte_explosion'
+            enemyLife: 8
         },
         {
             background: 'libia',
@@ -74,8 +68,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 50,
             enemyDamage: 1,
-            enemyLife: 5,
-            enemyExplosion: 'bf109_explosion'
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -85,8 +78,7 @@ export class LEVELS {
             enemy: 'helicopter_enemy',
             enemyN: 45,
             enemyDamage: 1,
-            enemyLife: 8,
-            enemyExplosion: 'helicopter_enemy_explosion'
+            enemyLife: 8
         },
         {
             background: 'libia',
@@ -96,8 +88,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 5,
             enemyDamage: 1,
-            enemyLife: 5,
-            enemyExplosion: 'bf109_explosion'
+            enemyLife: 5
         },
         {
             background: 'libia',
@@ -107,8 +98,7 @@ export class LEVELS {
             enemy: 'bf109',
             enemyN: 5,
             enemyDamage: 1,
-            enemyLife: 5,
-            enemyExplosion: 'bf109_explosion'
+            enemyLife: 5
         },
         //japan
         {
@@ -119,8 +109,7 @@ export class LEVELS {
             enemy: 'helicopter_enemy',
             enemyN: 10,
             enemyDamage: 2,
-            enemyLife: 10,
-            enemyExplosion: 'helicopter_enemy_explosion'
+            enemyLife: 10
         },
         {
             background: 'japan',
@@ -130,8 +119,7 @@ export class LEVELS {
             enemy: 'helicopter_enemy',
             enemyN: 10,
             enemyDamage: 2,
-            enemyLife: 10,
-            enemyExplosion: 'helicopter_enemy_explosion'
+            enemyLife: 10
         },
         {
             background: 'japan',
@@ -141,8 +129,7 @@ export class LEVELS {
             enemy: 'helicopter_enemy',
             enemyN: 10,
             enemyDamage: 2,
-            enemyLife: 10,
-            enemyExplosion: 'helicopter_enemy_explosion'
+            enemyLife: 10
         },
         {
             background: 'japan',
@@ -152,8 +139,7 @@ export class LEVELS {
             enemy: 'helicopter_enemy',
             enemyN: 10,
             enemyDamage: 2,
-            enemyLife: 10,
-            enemyExplosion: 'helicopter_enemy_explosion'
+            enemyLife: 10
         },
         {
             background: 'japan',
@@ -224,8 +210,7 @@ export class LEVELS {
             enemy: 'fw190',
             enemyN: 10,
             enemyDamage: 2,
-            enemyLife: 20,
-            enemyExplosion: 'fw190_explosion'
+            enemyLife: 20
         },
     ]
 }

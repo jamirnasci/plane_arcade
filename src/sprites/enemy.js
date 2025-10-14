@@ -1,4 +1,5 @@
 import { EnemyExplosion } from "./enemy_explosion"
+import { Explosion } from "./explosion"
 
 export class Enemy extends Phaser.Physics.Arcade.Sprite {
     /**
@@ -112,11 +113,8 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
             }
         )
     }
-    setExplosionTexture(texture){
-        this.explosionTexture = texture
-    }
     deathAnimation() {
-        const explosion = new EnemyExplosion(this.scene, this.x, this.y, this.explosionTexture, this.rotation)
+        const explosion = new Explosion(this.scene, this.x, this.y, 'explosion_sprite')
         explosion.play()
         return explosion
     }

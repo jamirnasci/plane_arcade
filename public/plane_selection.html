@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plane Arcade - Menu Principal</title>
-  <link rel="stylesheet" href="./src/style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <style>
   /* ... (Estilos CSS omitidos para brevidade, mantenha-os como estão) ... */
@@ -160,35 +160,9 @@
       window.history.back()
     }
 
-    // Função para Abrir a Tela de Configurações
-    function openSettings() {
-      // Esconde o título (se houver mais elementos, esconda-os também)
-      gameTitle.classList.add('hidden');
-      planesList.classList.add('hidden'); // Esconder a lista de aviões
-
-      // Mostra a tela de configurações
-      settingsScreen.classList.remove('hidden');
-    }
-
-    // Função para Fechar a Tela de Configurações
-    function closeSettings() {
-      // Esconde a tela de configurações
-      settingsScreen.classList.add('hidden');
-
-      // Mostra o título e a lista de aviões
-      gameTitle.classList.remove('hidden');
-      planesList.classList.remove('hidden');
-    }
-
     // Funções de placeholder
     function startGame() {
-      location.href = 'level_selection.html'
-    }
-    function viewHighscores() {
-      alert("Tela de Recordes. Seus melhores pilotos estarão aqui!");
-    }
-    function quitGame() {
-      alert("Obrigado por jogar Plane Arcade!");
+      location.href = './level_selection.html'
     }
 
 
@@ -209,31 +183,6 @@
       planesList.appendChild(planeCard);
     });
     
-    // Se o botão "Voltar ao Menu" da tela de configurações for criado no HTML,
-    // adicione o listener:
-    if (btnCloseSettings) {
-        btnCloseSettings.addEventListener('click', closeSettings);
-    }
-    
-    // As funções openSettings, startGame, viewHighscores, e quitGame 
-    // também precisariam ser anexadas a botões usando event listeners,
-    // já que não é possível usar onclick="..." no HTML para funções de módulo.
-
-    // Exemplo para um botão de Iniciar Jogo (Se você tivesse um no HTML)
-    /*
-    const btnStart = document.getElementById('btn-start-game'); 
-    if (btnStart) {
-        btnStart.addEventListener('click', startGame);
-    }
-    */
-    
-    // Inicia o menu (garante que as configurações estejam escondidas ao carregar)
-    document.addEventListener('DOMContentLoaded', () => {
-      settingsScreen.classList.add('hidden');
-      
-      // Correção para botões que você já definiu como placeholder no JS, mas não usou no HTML
-      // Se esta tela for puramente a tela de seleção de aviões, ela pode não ter botões de menu.
-    });
   </script>
 </body>
 

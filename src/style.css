@@ -21,3 +21,13 @@ body {
   /* Hides both horizontal and vertical scrollbars */
   /* Or use overflow-x: hidden; for horizontal only, or overflow-y: hidden; for vertical only */
 }
+
+#app{
+  margin: 0;
+  padding: 0;
+}
+
+canvas{
+  margin: 0;
+  padding: 0;
+}

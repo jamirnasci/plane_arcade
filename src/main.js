@@ -9,6 +9,7 @@ import { Boss } from "./sprites/boss";
 import { Helicopter } from "./sprites/helicopter";
 import { LEVELS } from "./levels";
 import { PLANES } from "./planes";
+import { MenuScene } from "./scenes/menu";
 
 const params = new URLSearchParams(window.location.search)
 
@@ -18,7 +19,6 @@ if(!selectedPlane){
   selectedPlane = 0
 }
 
-
 class MainScene extends Phaser.Scene {
 
   constructor() {
@@ -27,7 +27,7 @@ class MainScene extends Phaser.Scene {
     this.speed = 200
     this.shootDelay = 40
     this.lastShootTime = 0
-    this.level = LEVELS.list[level]
+    this.level = LEVELS.list[level || 0]
     this.enemysN = this.level.enemyN
     this.enemysKilled = 0
     this.bossKilled = 0
@@ -119,10 +119,18 @@ class MainScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys()
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
-    this.lifeHud = this.add.text(10, 10, `❤️ ${this.life}`, { fontSize: '30px', fill: '#000', fontFamily: '"Jersey 10", sans-serif' })
-      .setScrollFactor(0)
-    this.killsHud = this.add.text(90, 10, `🗡️ ${this.enemysKilled}/${this.enemysN}`, { fontSize: '30px', fill: '#000', fontFamily: '"Jersey 10", sans-serif' })
-      .setScrollFactor(0)
+    this.lifeHud = this.add.text(10, 10, `❤️ ${this.life}`, {
+       fontSize: '30px', 
+       fill: '#fff', 
+       fontFamily: '"Jersey 10", sans-serif' 
+      }).setScrollFactor(0)
+    this.lifeHud.setStroke('#000', 4)
+    this.killsHud = this.add.text(90, 10, `🗡️ ${this.enemysKilled}/${this.enemysN}`, { 
+      fontSize: '30px', 
+      fill: '#fff', 
+      fontFamily: '"Jersey 10", sans-serif' 
+    }).setScrollFactor(0)
+    this.killsHud.setStroke('#000', 4)
   }
   update(time, delta) {
     const rotationSpeed = 0.05
@@ -201,7 +209,6 @@ class MainScene extends Phaser.Scene {
       enemy.setVisible(true)
       enemy.setDamage(this.level.enemyDamage)
       enemy.setLife(this.level.enemyLife)
-      enemy.setExplosionTexture(this.level.enemyExplosion)
       enemy.body.enable = true
       this.physics.moveToObject(enemy, this.player, 100)
     }
@@ -227,6 +234,7 @@ class MainScene extends Phaser.Scene {
         deathAnimation.on('animationcomplete', () => {
           deathAnimation.destroy()
           enemy.setActive(false)
+          deathAnimation.destroy()
           enemy.destroy()
           this.enemysKilled += 1
           if (this.level.boss) {
@@ -265,16 +273,17 @@ class MainScene extends Phaser.Scene {
   hitPlayer(player, bullet) {
     if (this.life <= 0 && this.player.active) {
       //colocar a animacao do player morrendo
-      const enemyAnimation = this.player.deathAnimation()
+      const deathAnimation = this.player.deathAnimation()
       this.sound.play('big_explosion')
-      this.time.delayedCall(1000, ()=>{
+      deathAnimation.on('animationcomplete', ()=>{
+        deathAnimation.destroy()
         this.player.setActive(false)
         this.player.setVisible(false)        
         this.endGame('loss')
       })
       //enemyAnimation.on('animationcomplete', ()=>{})
     }
-    if (!bullet.isPlayerBullet) {
+    if (!bullet.isPlayerBullet && this.life >= 0) {
       this.player.setTint(0xff0000)
       this.life -= bullet.bulletDamage
 
@@ -329,7 +338,7 @@ const game = new Phaser.Game({
   type: Phaser.AUTO,
   width: window.innerWidth,
   height: window.innerHeight,
-  scene: [MainScene],
+  scene: [MenuScene, MainScene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH

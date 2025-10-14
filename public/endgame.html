@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>End Game</title>
-    <link rel="stylesheet" href="./src/style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <style>
     body{
@@ -106,7 +106,7 @@
     <script>
         const params = new URLSearchParams(window.location.search)
         const result = params.get('result')
-        const kills = params.get('kills')
+        const kills = parseInt(params.get('kills'))
 
         const gameOverTitle = document.getElementById('game-over-title')
         if(result == 'win'){
@@ -117,16 +117,15 @@
 
         }
         if(kills){
-            document.getElementById('final-kills').innerHTML = kills
-        }
-        function hideAllScreens() {
-            document.getElementById('game-menu').classList.add('hidden');
-            document.getElementById('settings-screen').classList.add('hidden');
-            document.getElementById('endgame-screen').classList.add('hidden');
+            for (let i = 0; i <= kills; i++) {
+                setTimeout(()=>{
+                    document.getElementById('final-kills').innerHTML = i
+                }, i * 50)                
+            }
         }
 
         function goToLevels(){
-            location.href = 'level_selection.html'
+            location.href = './level_selection.html'
         }
 
         // 1. Iniciar o Jogo (Esconde Menu, mostra Jogo)
@@ -134,30 +133,11 @@
             history.back()
         }
 
-        // 2. Fim do Jogo (Mostra Tela de Game Over)
-        function endTheGame(kills, coins) {
-            hideAllScreens();
-
-            // Atualiza os valores na tela de Game Over
-            document.getElementById('final-kills').textContent = kills;
-            document.getElementById('final-coins').textContent = coins;
-
-            // Mostra a tela de Game Over
-            document.getElementById('endgame-screen').classList.remove('hidden');
-        }
-
         // 3. Voltar ao Menu Principal (Chamado da tela de Game Over)
         function goToMenu() {
-            location.href = 'index.html'
+            location.href = './index.html'
         }
 
-        // Inicialização: Garante que apenas o menu principal esteja visível ao carregar
-        document.addEventListener('DOMContentLoaded', () => {
-            hideAllScreens(); // Esconde todas
-            document.getElementById('game-menu').classList.remove('hidden'); // Mostra apenas o menu
-            // Certifica-se de que o botão de "Voltar ao Menu" nas configurações funcione
-            document.querySelector('#settings-screen button[onclick="closeSettings()"]').onclick = goToMenu;
-        });
     </script>
 </body>
 

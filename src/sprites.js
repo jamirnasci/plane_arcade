@@ -3,22 +3,14 @@
 export const loadSprites = (scene) => {
     //players
     scene.load.spritesheet('hawker', 'assets/img/players/hawker.png', {frameWidth: 289, frameHeight: 256})
-    scene.load.spritesheet('hawker_explosion', 'assets/img/players/hawker_explosion.png', {frameWidth: 289, frameHeight: 256})
     scene.load.spritesheet('p40', 'assets/img/players/p40.png', {frameWidth: 256,frameHeight: 256})
-    scene.load.spritesheet('p40_explosion', 'assets/img/players/p40_explosion.png', {frameWidth: 256,frameHeight: 256})
     scene.load.spritesheet('helicopter', 'assets/img/players/helicopter.png', {frameWidth: 256,frameHeight: 256})
-    scene.load.spritesheet('helicopter_explosion', 'assets/img/players/helicopter_explosion.png', {frameWidth: 256,frameHeight: 256})
     scene.load.spritesheet('hellcat', 'assets/img/players/hellcat.png', {frameWidth: 330,frameHeight: 256})
-    scene.load.spritesheet('hellcat_explosion', 'assets/img/players/hellcat_explosion.png', {frameWidth: 330,frameHeight: 256})
     scene.load.spritesheet('yak3', 'assets/img/players/yak3.png', {frameWidth: 256,frameHeight: 256})
-    scene.load.spritesheet('yak3_explosion', 'assets/img/players/yak3_explosion.png', {frameWidth: 256,frameHeight: 256})
     //enemys
     scene.load.spritesheet('bf109', 'assets/img/enemys/bf109.png', {frameWidth: 256,frameHeight: 256})
-    scene.load.spritesheet('bf109_explosion', 'assets/img/enemys/bf109_explosion.png', {frameWidth: 256,frameHeight: 256})
     scene.load.spritesheet('helicopter_enemy', 'assets/img/enemys/helicopter_enemy.png', {frameWidth: 256,frameHeight: 256})
-    scene.load.spritesheet('helicopter_enemy_explosion', 'assets/img/enemys/helicopter_enemy_explosion.png', {frameWidth: 256,frameHeight: 256})
     scene.load.spritesheet('fw190', 'assets/img/enemys/fw190.png', {frameWidth: 265,frameHeight: 256})
-    scene.load.spritesheet('fw190_explosion', 'assets/img/enemys/fw190_explosion.png', {frameWidth: 265,frameHeight: 256})
     //boss
     scene.load.spritesheet('boss1', 'assets/img/enemys/boss1.png', {frameHeight: 256,frameWidth: 453})
     scene.load.spritesheet('boss1_explosion', 'assets/img/enemys/boss1_explosion.png', {frameHeight: 256,frameWidth: 453})
@@ -39,6 +31,7 @@ export const loadSprites = (scene) => {
     scene.load.image('bullet2', 'assets/img/objects/bullet2.png')
     scene.load.image('bullet3', 'assets/img/objects/bullet3.png')
     scene.load.image('life', 'assets/img/objects/life.png')
+    scene.load.spritesheet('explosion_sprite', 'assets/img/objects/explosion.png', {frameWidth: 300, frameHeight: 300})
     //audio
     scene.load.audio('shoot', 'assets/audio/shoot.mp3')
     scene.load.audio('explosion', 'assets/audio/explosion.mp3')

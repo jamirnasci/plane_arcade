@@ -1,0 +1,6 @@
+{
+  "appId": "com.jjmobile.planearcade",
+  "appName": "plane_arcade",
+  "webDir": "./dist",
+  "bundledWebRuntime": false
+}
