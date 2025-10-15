@@ -1,22 +1,80 @@
-export class MenuScene extends Phaser.Scene{
-    constructor(){
-        super({key: 'MenuScene'})
+import { PLANES } from "../planes"
+import { loadSprites } from "../sprites"
+
+export class MenuScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'MenuScene' })
     }
-    preload(){
+    preload() {
+        loadSprites(this)
         this.load.image('play_btn', 'assets/img/menu/play_btn.png')
+        this.load.image('planes_btn', 'assets/img/menu/planes_btn.png')
+        this.load.image('settings_btn', 'assets/img/menu/settings_btn.png')
+        this.load.image('back_btn', 'assets/img/menu/back_btn.png')
+        this.load.image('menu_btn', 'assets/img/menu/menu_btn.png')
         this.load.image('bg', 'assets/img/menu/menu_bg.png')
     }
-    create(){
+    create() {
         this.bg = this.add.tileSprite(0, 0, 1536, 1024, 'bg')
         this.bg.setOrigin(0, 0)
 
-        this.playBtn = this.add.image(100, 100, 'play_btn')
+        const screenWidth = window.innerWidth
+        const screenHeight = window.innerHeight
+        const btnScale = 0.4
+
+        this.gameTitle = this.add.text(screenWidth / 2, 50, 'PLANE ARCADE', {
+            fontSize: '60px',
+            fill: '#33ff00ff',
+            fontFamily: '"Jersey 10", sans-serif'
+        })
+        this.gameTitle.x = this.gameTitle.x - (this.gameTitle.width / 2)
+        this.gameTitle.setStroke('#000', 4)
+
+        const selectedPlane = localStorage.getItem('plane') == null ? 0 : parseInt(localStorage.getItem('plane'))
+
+        this.plane = this.physics.add.sprite(screenWidth / 2, 170, PLANES[selectedPlane].texture)
+        this.plane.setScale(0.4)
+        if (!this.anims.exists('player-walk')) {
+            this.anims.create({
+                key: 'player-walk',
+                frames: this.anims.generateFrameNumbers(PLANES[selectedPlane].texture, { start: 0, end: 3 }),
+                frameRate: 20,
+                repeat: -1
+            })
+        }
+        this.plane.anims.play('player-walk', true)
+
+        this.planeName = this.add.text(screenWidth / 2, 220, PLANES[selectedPlane].texture.toUpperCase(), {
+            fontSize: '30px',
+            fill: '#000',
+            fontFamily: '"Jersey 10", sans-serif',
+            letterSpacing: 3
+        })
+        this.planeName.setStroke('#fff', 4)
+        this.planeName.x = this.planeName.x - (this.planeName.width / 2)
+
+        this.playBtn = this.add.image(screenWidth / 2, this.planeName.y + 100, 'play_btn')
         this.playBtn.setInteractive()
-        this.playBtn.on('pointerdown', ()=>{
+        this.playBtn.setScale(btnScale)
+        this.playBtn.on('pointerdown', () => {
             this.scene.start('MainScene')
         })
+
+        this.planesBtn = this.add.image(screenWidth / 2, this.planeName.y + 200, 'planes_btn')
+        this.planesBtn.setInteractive()
+        this.planesBtn.setScale(btnScale)
+        this.planesBtn.on('pointerdown', () => {
+
+        })
+
+        this.settingsBtn = this.add.image(screenWidth / 2, this.planeName.y + 300, 'settings_btn')
+        this.settingsBtn.setInteractive()
+        this.settingsBtn.setScale(btnScale)
+        this.settingsBtn.on('pointerdown', () => {
+
+        })
     }
-    update(){
+    update() {
 
     }
 }
