@@ -10,6 +10,8 @@ import { Helicopter } from "./sprites/helicopter";
 import { LEVELS } from "./levels";
 import { PLANES } from "./planes";
 import { MenuScene } from "./scenes/menu";
+import { LevelsScene } from "./scenes/levelsSelect";
+import { EndGameScene } from "./scenes/endgame";
 
 const params = new URLSearchParams(window.location.search)
 
@@ -26,13 +28,15 @@ class MainScene extends Phaser.Scene {
     this.player = null
     this.speed = 200
     this.shootDelay = 40
-    this.lastShootTime = 0
-    this.level = LEVELS.list[level || 0]
-    this.enemysN = this.level.enemyN
+    this.lastShootTime = 0    
     this.enemysKilled = 0
     this.bossKilled = 0
     this.playerDamage = 10
     this.plane = PLANES[parseInt(selectedPlane)]
+  }
+  init(data){
+    this.level = LEVELS.list[data.level]
+    this.enemysN = this.level.enemyN
   }
   preload() {
     loadSprites(this)
@@ -186,13 +190,8 @@ class MainScene extends Phaser.Scene {
     }
   }
   addLife(player, life) {
-    if ((this.life + 10) <= 100) {
-      this.life += 10
-      this.lifeHud.setText(`❤️ ${this.life}`)
-    } else if ((100 - this.life) <= 10) {
-      this.life = 100
-      this.lifeHud.setText(`❤️ ${this.life}`)
-    }
+    this.life += 10
+    this.lifeHud.setText(`❤️ ${this.life}`)    
     life.destroy()
   }
   spawnEnemys() {
@@ -319,10 +318,16 @@ class MainScene extends Phaser.Scene {
     });
   }
   endGame(result) {
-    this.scene.pause()
+    this.planeEngineSound.stop()
     this.player.setVelocity(0)
     this.player.setActive(false)
-    location.href = `endgame.html?result=${result}&kills=${this.enemysKilled}`
+    this.scene.start('EndGameScene', {
+      result: result,
+      coins: 0,
+      kills: this.enemysKilled,
+      level: LEVELS.list.indexOf(this.level)
+    })
+    
     /*
     this.scene.pause()
     const res = confirm('fim de jogo, deseja reiniciar ?')
@@ -338,7 +343,7 @@ const game = new Phaser.Game({
   type: Phaser.AUTO,
   width: window.innerWidth,
   height: window.innerHeight,
-  scene: [MenuScene, MainScene],
+  scene: [LevelsScene, EndGameScene, MenuScene, MainScene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH

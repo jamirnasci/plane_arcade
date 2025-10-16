@@ -5,7 +5,7 @@
  * @param {number} screenHeight 
  */
 const hudScale = 0.25
-const hudAlpha = 0.4
+const hudAlpha = 0.7
 
 export const loadHud = (context, screenWidth, screenHeight) => {
     context.rightArrow = context.add.image(135, 640, 'right_arrow')

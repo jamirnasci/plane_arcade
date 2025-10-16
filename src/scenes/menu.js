@@ -9,7 +9,7 @@ export class MenuScene extends Phaser.Scene {
         loadSprites(this)
         this.load.image('play_btn', 'assets/img/menu/play_btn.png')
         this.load.image('planes_btn', 'assets/img/menu/planes_btn.png')
-        this.load.image('settings_btn', 'assets/img/menu/settings_btn.png')
+        this.load.image('arcade_btn', 'assets/img/menu/arcade_btn.png')
         this.load.image('back_btn', 'assets/img/menu/back_btn.png')
         this.load.image('menu_btn', 'assets/img/menu/menu_btn.png')
         this.load.image('bg', 'assets/img/menu/menu_bg.png')
@@ -20,7 +20,7 @@ export class MenuScene extends Phaser.Scene {
 
         const screenWidth = window.innerWidth
         const screenHeight = window.innerHeight
-        const btnScale = 0.4
+        const btnScale = 0.3
 
         this.gameTitle = this.add.text(screenWidth / 2, 50, 'PLANE ARCADE', {
             fontSize: '60px',
@@ -57,20 +57,20 @@ export class MenuScene extends Phaser.Scene {
         this.playBtn.setInteractive()
         this.playBtn.setScale(btnScale)
         this.playBtn.on('pointerdown', () => {
-            this.scene.start('MainScene')
+            this.scene.start('LevelsScene')
         })
 
-        this.planesBtn = this.add.image(screenWidth / 2, this.planeName.y + 200, 'planes_btn')
+        this.planesBtn = this.add.image(screenWidth / 2, this.planeName.y + 160, 'planes_btn')
         this.planesBtn.setInteractive()
         this.planesBtn.setScale(btnScale)
         this.planesBtn.on('pointerdown', () => {
 
         })
 
-        this.settingsBtn = this.add.image(screenWidth / 2, this.planeName.y + 300, 'settings_btn')
-        this.settingsBtn.setInteractive()
-        this.settingsBtn.setScale(btnScale)
-        this.settingsBtn.on('pointerdown', () => {
+        this.arcadeBtn = this.add.image(screenWidth / 2, this.planeName.y + 220, 'arcade_btn')
+        this.arcadeBtn.setInteractive()
+        this.arcadeBtn.setScale(btnScale)
+        this.arcadeBtn.on('pointerdown', () => {
 
         })
     }

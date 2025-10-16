@@ -1,4 +1,4 @@
-import { EnemyExplosion } from "./enemy_explosion"
+import { EnemyExplosion } from "./enemyExplosion"
 import { Explosion } from "./explosion"
 
 export class Enemy extends Phaser.Physics.Arcade.Sprite {

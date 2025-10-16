@@ -29,7 +29,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     shoot() {
         const bullet = this.scene.bullets.get(this.x, this.y)
         if (bullet) {
-            this.scene.sound.play('shoot')
+            this.scene.sound.play('shoot', {volume: 0.5})
             bullet.setActive(true)
             bullet.setVisible(true)
             bullet.setTexture(this.bulletTexture)

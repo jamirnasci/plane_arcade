@@ -1,4 +1,4 @@
-export class Boss1Explosion extends Phaser.Physics.Arcade.Sprite{
+export class BossExplosion extends Phaser.Physics.Arcade.Sprite{
     /**
      * 
      * @param {Phaser.Scene} scene 
