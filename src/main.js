@@ -12,12 +12,14 @@ import { PLANES } from "./planes";
 import { MenuScene } from "./scenes/menu";
 import { LevelsScene } from "./scenes/levelsSelect";
 import { EndGameScene } from "./scenes/endgame";
+import { PlanesScene } from "./scenes/planeSelect";
+import { Coin } from "./sprites/coin";
 
 const params = new URLSearchParams(window.location.search)
 
 const level = parseInt(params.get('level'))
 let selectedPlane = localStorage.getItem('plane')
-if(!selectedPlane){
+if (!selectedPlane) {
   selectedPlane = 0
 }
 
@@ -25,16 +27,8 @@ class MainScene extends Phaser.Scene {
 
   constructor() {
     super({ key: 'MainScene' })
-    this.player = null
-    this.speed = 200
-    this.shootDelay = 40
-    this.lastShootTime = 0    
-    this.enemysKilled = 0
-    this.bossKilled = 0
-    this.playerDamage = 10
-    this.plane = PLANES[parseInt(selectedPlane)]
   }
-  init(data){
+  init(data) {
     this.level = LEVELS.list[data.level]
     this.enemysN = this.level.enemyN
   }
@@ -42,6 +36,15 @@ class MainScene extends Phaser.Scene {
     loadSprites(this)
   }
   create() {
+    this.speed = 200
+    this.shootDelay = 40
+    this.lastShootTime = 0
+    this.enemysKilled = 0
+    this.bossKilled = 0
+    this.playerDamage = 10
+    this.plane = PLANES[parseInt(selectedPlane)]
+    this.collectedCoins = 0
+
     this.cameras.main.setBackgroundColor('#65e0ffff')
     const screenWidth = this.sys.game.config.width
     const screenHeight = this.sys.game.config.height
@@ -69,7 +72,7 @@ class MainScene extends Phaser.Scene {
       defaultKey: this.level.enemy,
       collideWorldBounds: true
     })
-     this.bullets = new Bullet(this)
+    this.bullets = new Bullet(this)
     if (this.level.boss) {
       this.bossGroup = this.physics.add.group({
         classType: Boss,
@@ -79,8 +82,8 @@ class MainScene extends Phaser.Scene {
       })
       this.physics.add.collider(this.bossGroup, this.bullets, this.hitEnemy, null, this)
       this.physics.add.collider(this.bossGroup, this.bossGroup)
-      
-    }   
+
+    }
 
     this.physics.world.on('worldbounds', (body) => {
       // Verifica se o objeto do corpo pertence ao seu grupo de balas
@@ -109,6 +112,19 @@ class MainScene extends Phaser.Scene {
       defaultKey: 'life'
     })
 
+    this.coinsEvent = this.time.addEvent({
+      loop: true,
+      callback: this.spawnCoin,
+      callbackScope: this,
+      delay: 3000
+    })
+
+    this.coins = this.physics.add.group({
+      classType: Coin,
+      maxSize: 20,
+      defaultKey: 'coin'
+    })
+
     this.planeEngineSound = this.sound.add('plane', {
       loop: true,
       volume: 0.2
@@ -119,22 +135,31 @@ class MainScene extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.bullets, this.hitPlayer, null, this) // overlap detecta colisao, mas sem fisica
     this.physics.add.collider(this.enemys, this.player, this.playerAndEnemy, null, this)
     this.physics.add.overlap(this.player, this.lifes, this.addLife, null, this)
+    this.physics.add.overlap(this.player, this.coins, this.addCoin, null, this)
 
     this.cursors = this.input.keyboard.createCursorKeys()
     this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
 
     this.lifeHud = this.add.text(10, 10, `❤️ ${this.life}`, {
-       fontSize: '30px', 
-       fill: '#fff', 
-       fontFamily: '"Jersey 10", sans-serif' 
-      }).setScrollFactor(0)
+      fontSize: '30px',
+      fill: '#fff',
+      fontFamily: '"Jersey 10", sans-serif'
+    }).setScrollFactor(0)
     this.lifeHud.setStroke('#000', 4)
-    this.killsHud = this.add.text(90, 10, `🗡️ ${this.enemysKilled}/${this.enemysN}`, { 
-      fontSize: '30px', 
-      fill: '#fff', 
-      fontFamily: '"Jersey 10", sans-serif' 
+
+    this.killsHud = this.add.text(90, 10, `🗡️ ${this.enemysKilled}/${this.enemysN}`, {
+      fontSize: '30px',
+      fill: '#fff',
+      fontFamily: '"Jersey 10", sans-serif'
     }).setScrollFactor(0)
     this.killsHud.setStroke('#000', 4)
+
+    this.coinsHud = this.add.text(195, 10, `🪙 ${this.collectedCoins}`, {
+      fontSize: '30px',
+      fill: '#fff',
+      fontFamily: '"Jersey 10", sans-serif'
+    }).setScrollFactor(0)
+    this.coinsHud.setStroke('#000', 4)
   }
   update(time, delta) {
     const rotationSpeed = 0.05
@@ -189,9 +214,29 @@ class MainScene extends Phaser.Scene {
       life.body.enable = true
     }
   }
+  spawnCoin() {
+    const x = Math.floor(Math.random() * 1820)
+    const y = Math.floor(Math.random() * 900)
+
+    /** @type {Coin}*/
+    const coin = this.coins.get(x, y)
+    if (coin) {
+      coin.body.enable = true
+    }
+  }
+  /**
+   * 
+   * @param {any} player 
+   * @param {Coin} coin 
+   */
+  addCoin(player, coin){
+    this.collectedCoins += coin.coinValue
+    this.coinsHud.setText(`🪙 ${this.collectedCoins}`)
+    coin.destroy()
+  }
   addLife(player, life) {
     this.life += 10
-    this.lifeHud.setText(`❤️ ${this.life}`)    
+    this.lifeHud.setText(`❤️ ${this.life}`)
     life.destroy()
   }
   spawnEnemys() {
@@ -251,7 +296,7 @@ class MainScene extends Phaser.Scene {
             }
           }
 
-          if(this.enemysKilled >= this.level.enemyN && !this.level.boss){            
+          if (this.enemysKilled >= this.level.enemyN && !this.level.boss) {
             this.endGame('win')
           }
 
@@ -274,10 +319,10 @@ class MainScene extends Phaser.Scene {
       //colocar a animacao do player morrendo
       const deathAnimation = this.player.deathAnimation()
       this.sound.play('big_explosion')
-      deathAnimation.on('animationcomplete', ()=>{
+      deathAnimation.on('animationcomplete', () => {
         deathAnimation.destroy()
         this.player.setActive(false)
-        this.player.setVisible(false)        
+        this.player.setVisible(false)
         this.endGame('loss')
       })
       //enemyAnimation.on('animationcomplete', ()=>{})
@@ -321,13 +366,14 @@ class MainScene extends Phaser.Scene {
     this.planeEngineSound.stop()
     this.player.setVelocity(0)
     this.player.setActive(false)
+    this.scene.stop('MainScene')
     this.scene.start('EndGameScene', {
       result: result,
-      coins: 0,
+      coins: this.collectedCoins,
       kills: this.enemysKilled,
       level: LEVELS.list.indexOf(this.level)
     })
-    
+
     /*
     this.scene.pause()
     const res = confirm('fim de jogo, deseja reiniciar ?')
@@ -343,7 +389,7 @@ const game = new Phaser.Game({
   type: Phaser.AUTO,
   width: window.innerWidth,
   height: window.innerHeight,
-  scene: [LevelsScene, EndGameScene, MenuScene, MainScene],
+  scene: [MenuScene, PlanesScene, LevelsScene, EndGameScene, MainScene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH

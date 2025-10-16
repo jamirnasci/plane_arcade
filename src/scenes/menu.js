@@ -12,11 +12,21 @@ export class MenuScene extends Phaser.Scene {
         this.load.image('arcade_btn', 'assets/img/menu/arcade_btn.png')
         this.load.image('back_btn', 'assets/img/menu/back_btn.png')
         this.load.image('menu_btn', 'assets/img/menu/menu_btn.png')
+        this.load.image('exit_btn', 'assets/img/menu/exit_btn.png')
         this.load.image('bg', 'assets/img/menu/menu_bg.png')
     }
     create() {
         this.bg = this.add.tileSprite(0, 0, 1536, 1024, 'bg')
         this.bg.setOrigin(0, 0)
+
+        const storageCoins = localStorage.getItem('coins') == null ? 0 : parseInt(localStorage.getItem('coins'))
+
+        this.menuCoins = this.add.text(10, 10, `🪙 ${storageCoins}`, {
+            fontSize: '30px',
+            fill: '#fff',
+            fontFamily: '"Jersey 10", sans-serif'
+        }).setScrollFactor(0)
+        this.menuCoins.setStroke('#000', 4)
 
         const screenWidth = window.innerWidth
         const screenHeight = window.innerHeight
@@ -64,13 +74,19 @@ export class MenuScene extends Phaser.Scene {
         this.planesBtn.setInteractive()
         this.planesBtn.setScale(btnScale)
         this.planesBtn.on('pointerdown', () => {
-
+            this.scene.start('PlanesScene')
         })
 
         this.arcadeBtn = this.add.image(screenWidth / 2, this.planeName.y + 220, 'arcade_btn')
         this.arcadeBtn.setInteractive()
         this.arcadeBtn.setScale(btnScale)
         this.arcadeBtn.on('pointerdown', () => {
+
+        })
+        this.exitBtn = this.add.image(screenWidth / 2, this.planeName.y + 280, 'exit_btn')
+        this.exitBtn.setInteractive()
+        this.exitBtn.setScale(btnScale)
+        this.exitBtn.on('pointerdown', () => {
 
         })
     }

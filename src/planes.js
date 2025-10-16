@@ -10,10 +10,10 @@ export const PLANES = [
     {
         texture: 'helicopter',
         explosionTexture: 'helicopter_explosion',
-        damage: 3,
+        damage: 20,
         life: 100,
         maxVelocity: 200,
-        bulletTexture: 'bullet'
+        bulletTexture: 'bullet3'
     },
     {
         texture: 'hellcat',

@@ -30,6 +30,10 @@ export const loadSprites = (scene) => {
     scene.load.image('bullet', 'assets/img/objects/bullet.png')
     scene.load.image('bullet2', 'assets/img/objects/bullet2.png')
     scene.load.image('bullet3', 'assets/img/objects/bullet3.png')
+    scene.load.image('coin', 'assets/img/objects/coin.png')
+    scene.load.image('coin_10', 'assets/img/objects/coin_10.png')
+    scene.load.image('coin_25', 'assets/img/objects/coin_25.png')
+    scene.load.image('coin_50', 'assets/img/objects/coin_50.png')
     scene.load.image('life', 'assets/img/objects/life.png')
     scene.load.spritesheet('explosion_sprite', 'assets/img/objects/explosion.png', {frameWidth: 300, frameHeight: 300})
     //audio

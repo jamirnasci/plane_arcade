@@ -16,6 +16,11 @@ export class EndGameScene extends Phaser.Scene {
         this.kills = data.kills || 0
         this.coins = data.coins || 0
         this.level = data.level || 0
+        if(!localStorage.getItem('coins')){
+            localStorage.setItem('coins', data.coins)
+        }else{
+            localStorage.setItem('coins', parseInt(localStorage.getItem('coins')) + data.coins)
+        }
     }
 
     create() {
@@ -65,7 +70,7 @@ export class EndGameScene extends Phaser.Scene {
         this.playAgain.setScale(btnScale)
         this.playAgain.setInteractive()
         this.playAgain.on('pointerdown', () => {
-            this.scene.start('MainScene', {level: this.level})            
+            this.scene.start('MainScene', {level: this.level})                        
         })
         this.container.add(this.playAgain)   
 
