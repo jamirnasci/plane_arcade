@@ -7,6 +7,7 @@ export class LevelsScene extends Phaser.Scene {
 
     preload() {
         this.load.image('bg', 'assets/img/menu/menu_bg.png')
+        this.load.image('back_btn', 'assets/img/menu/back_btn.png')
     }
 
     create() {
@@ -20,10 +21,23 @@ export class LevelsScene extends Phaser.Scene {
         const boxWidth = 400
         const boxHeight = 300
         const background = this.add.rectangle(0, 0, boxWidth, boxHeight, 0x000000, 0.7).setOrigin(0.5)
+        background.setRounded(20)
 
         // Container centralizado
         this.container = this.add.container(screenWidth / 2, screenHeight / 2)
         this.container.add(background)
+
+        this.backBtn = this.add.image(
+            -(this.container.getBounds().width / 2) + 40, 
+            -(this.container.getBounds().height / 2) + 40, 
+            'back_btn'
+        )
+        this.backBtn.setScale(0.2)       
+        this.backBtn.setInteractive() 
+        this.backBtn.on('pointerdown', ()=>{
+            this.scene.start('MenuScene')
+        })
+        this.container.add(this.backBtn)
 
         this.levelTitle = this.add.text(screenWidth / 2, this.container.y - 220, 'LEVELS', {
             fontSize: '60px',
@@ -57,7 +71,14 @@ export class LevelsScene extends Phaser.Scene {
 
         this.fillLevelList(pageIndex)
 
-        this.nextPage = this.add.text(15, 0, '>')
+        this.nextPage = this.add.text(5, 0, '>', {
+            backgroundColor: '#33ff00ff',
+            color: '#000',
+            padding: 5,
+            fixedWidth: 50,
+            fontFamily: '"Jersey 10", sans-serif',
+            align: 'center'
+        })
         this.nextPage.setInteractive()
         this.nextPage.on('pointerdown', () => {
             this.levelsContainer.removeAll(true)
@@ -66,7 +87,14 @@ export class LevelsScene extends Phaser.Scene {
             }
             this.fillLevelList(pageIndex)
         })
-        this.previousPage = this.add.text(-15, 0, '<')
+        this.previousPage = this.add.text(-55, 0, '<', {
+            backgroundColor: '#33ff00ff',
+            color: '#000',
+            padding: 5,
+            fixedWidth: 50,
+            fontFamily: '"Jersey 10", sans-serif',
+            align: 'center'
+        })
         this.previousPage.setInteractive()
         this.previousPage.on('pointerdown', () => {
             this.levelsContainer.removeAll(true)
@@ -97,7 +125,7 @@ export class LevelsScene extends Phaser.Scene {
             txt.setStroke('#000', 4)
             txt.setInteractive()
             txt.on('pointerdown', () => {
-                this.scene.start('MainScene', {level: item})
+                this.scene.start('MainScene', { level: item })
             })
             if (i >= 5) {
                 txt.x = x * 60

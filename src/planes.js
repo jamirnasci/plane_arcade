@@ -4,7 +4,7 @@ export const PLANES = [
         explosionTexture: 'hawker_explosion',
         damage: 2,
         life: 150,
-        maxVelocity: 300,
+        maxVelocity: 220,
         bulletTexture: 'bullet'
     },
     {
@@ -20,7 +20,7 @@ export const PLANES = [
         explosionTexture: 'hellcat_explosion',
         damage: 3,
         life: 200,
-        maxVelocity: 350,
+        maxVelocity: 260,
         bulletTexture: 'bullet'
     },
     {
@@ -36,7 +36,7 @@ export const PLANES = [
         explosionTexture: 'yak3_explosion',
         damage: 4,
         life: 250,
-        maxVelocity: 350,
+        maxVelocity: 250,
         bulletTexture: 'bullet2'
     }
 ]

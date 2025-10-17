@@ -1,5 +1,6 @@
 import { PLANES } from "../planes"
 import { loadSprites } from "../sprites"
+import { Player } from "../sprites/player"
 
 export class MenuScene extends Phaser.Scene {
     constructor() {
@@ -40,21 +41,12 @@ export class MenuScene extends Phaser.Scene {
         this.gameTitle.x = this.gameTitle.x - (this.gameTitle.width / 2)
         this.gameTitle.setStroke('#000', 4)
 
-        const selectedPlane = localStorage.getItem('plane') == null ? 0 : parseInt(localStorage.getItem('plane'))
+        this.selectedPlane = localStorage.getItem('plane') == null ? 0 : parseInt(localStorage.getItem('plane'))
 
-        this.plane = this.physics.add.sprite(screenWidth / 2, 170, PLANES[selectedPlane].texture)
-        this.plane.setScale(0.4)
-        if (!this.anims.exists('player-walk')) {
-            this.anims.create({
-                key: 'player-walk',
-                frames: this.anims.generateFrameNumbers(PLANES[selectedPlane].texture, { start: 0, end: 3 }),
-                frameRate: 20,
-                repeat: -1
-            })
-        }
-        this.plane.anims.play('player-walk', true)
+        this.plane = new Player(this, screenWidth / 2, 170, PLANES[this.selectedPlane].texture)   
+        this.plane.setScale(0.5) 
 
-        this.planeName = this.add.text(screenWidth / 2, 220, PLANES[selectedPlane].texture.toUpperCase(), {
+        this.planeName = this.add.text(screenWidth / 2, 220, PLANES[this.selectedPlane].texture.toUpperCase(), {
             fontSize: '30px',
             fill: '#000',
             fontFamily: '"Jersey 10", sans-serif',

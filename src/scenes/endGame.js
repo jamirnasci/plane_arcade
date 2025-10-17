@@ -34,7 +34,7 @@ export class EndGameScene extends Phaser.Scene {
         const boxWidth = 400
         const boxHeight = 300
         const background = this.add.rectangle(0, 0, boxWidth, boxHeight, 0x000000, 0.7).setOrigin(0.5)
-
+        background.setRounded(20)
         // Container centralizado
         this.container = this.add.container(screenWidth / 2, screenHeight / 2)
         this.container.add(background)

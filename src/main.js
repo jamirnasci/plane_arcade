@@ -15,14 +15,6 @@ import { EndGameScene } from "./scenes/endgame";
 import { PlanesScene } from "./scenes/planeSelect";
 import { Coin } from "./sprites/coin";
 
-const params = new URLSearchParams(window.location.search)
-
-const level = parseInt(params.get('level'))
-let selectedPlane = localStorage.getItem('plane')
-if (!selectedPlane) {
-  selectedPlane = 0
-}
-
 class MainScene extends Phaser.Scene {
 
   constructor() {
@@ -36,6 +28,10 @@ class MainScene extends Phaser.Scene {
     loadSprites(this)
   }
   create() {
+    let selectedPlane = localStorage.getItem('plane')
+    if (!selectedPlane) {
+      selectedPlane = 0
+    }
     this.speed = 200
     this.shootDelay = 40
     this.lastShootTime = 0
@@ -229,7 +225,7 @@ class MainScene extends Phaser.Scene {
    * @param {any} player 
    * @param {Coin} coin 
    */
-  addCoin(player, coin){
+  addCoin(player, coin) {
     this.collectedCoins += coin.coinValue
     this.coinsHud.setText(`🪙 ${this.collectedCoins}`)
     coin.destroy()
