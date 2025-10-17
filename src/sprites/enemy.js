@@ -92,10 +92,6 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         }
-        if (this && this.body.y <= 0 || this.body.x > 1920) {
-            this.setActive(false)
-            this.setVisible(false)
-        }
     }
     setLife(life) {
         this.life = life

@@ -106,7 +106,7 @@ export class LEVELS {
             boss: null,
             bossN: 0,
             bossLife: 100,
-            enemy: 'helicopter_enemy',
+            enemy: 'a6m',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -116,7 +116,7 @@ export class LEVELS {
             boss: null,
             bossN: 0,
             bossLife: 100,
-            enemy: 'helicopter_enemy',
+            enemy: 'a6m',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -126,7 +126,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'helicopter_enemy',
+            enemy: 'a6m',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -136,7 +136,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'helicopter_enemy',
+            enemy: 'a6m',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -146,7 +146,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'helicopter_enemy',
+            enemy: 'a6m',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -156,7 +156,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'helicopter_enemy',
+            enemy: 'a6m',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -166,7 +166,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'helicopter_enemy',
+            enemy: 'a6m',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -176,7 +176,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'helicopter_enemy',
+            enemy: 'a6m',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -186,7 +186,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'helicopter_enemy',
+            enemy: 'a6m',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10
@@ -196,7 +196,7 @@ export class LEVELS {
             boss: 'boss1',
             bossN: null,
             bossLife: 100,
-            enemy: 'helicopter_enemy',
+            enemy: 'a6m',
             enemyN: 10,
             enemyDamage: 2,
             enemyLife: 10

@@ -14,7 +14,7 @@ export class Coin extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this)
         scene.physics.add.existing(this)
         this.setActive(true)
-        this.setScale(0.2)
+        this.setScale(0.1)
         this.setVisible(true)
         this.coinValue = this.values[Math.floor(Math.random() * this.values.length)]
         this.setTexture(`coin_${this.coinValue}`)

@@ -1,5 +1,6 @@
 import { BossExplosion } from "./bossExplosion"
 import { Bullet } from "./bullet"
+import { Explosion } from "./explosion"
 
 export class Boss extends Phaser.Physics.Arcade.Sprite {
     /**
@@ -93,7 +94,8 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
         )
     }
     deathAnimation() {
-        const explosion = new BossExplosion(this.scene, this.x, this.y, 'boss1_explosion', this.rotation)
+        const explosion = new Explosion(this.scene, this.x, this.y, 'explosion_sprite')
+        explosion.setScale(1)
         explosion.play()
         return explosion
     }
