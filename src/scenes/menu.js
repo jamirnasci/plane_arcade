@@ -43,7 +43,10 @@ export class MenuScene extends Phaser.Scene {
 
         this.selectedPlane = localStorage.getItem('plane') == null ? 0 : parseInt(localStorage.getItem('plane'))
 
-        this.plane = new Player(this, screenWidth / 2, 170, PLANES[this.selectedPlane].texture)   
+        if(this.anims.exists('player-walk')){
+            this.anims.remove('player-walk')
+        }
+        this.plane = new Player(this, screenWidth / 2, 170, PLANES[this.selectedPlane].texture) 
         this.plane.setScale(0.5) 
 
         this.planeName = this.add.text(screenWidth / 2, 220, PLANES[this.selectedPlane].texture.toUpperCase(), {
@@ -73,7 +76,8 @@ export class MenuScene extends Phaser.Scene {
         this.arcadeBtn.setInteractive()
         this.arcadeBtn.setScale(btnScale)
         this.arcadeBtn.on('pointerdown', () => {
-
+            this.scene.start('StageScene')
+            //{level: 0, isArcade: true}
         })
         this.exitBtn = this.add.image(screenWidth / 2, this.planeName.y + 280, 'exit_btn')
         this.exitBtn.setInteractive()

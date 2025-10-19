@@ -201,9 +201,9 @@ export class LEVELS {
             enemyDamage: 2,
             enemyLife: 10
         },
-        // ukranie
+        // ukraine
                 {
-            background: 'ukranie',
+            background: 'ukraine',
             boss: null,
             bossN: 0,
             bossLife: 100,

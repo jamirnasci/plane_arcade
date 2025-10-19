@@ -63,7 +63,7 @@ export class PlanesScene extends Phaser.Scene {
         this.backBtn.setScale(0.2)
         this.backBtn.setInteractive()
         this.backBtn.on('pointerdown', () => {
-            this.scene.start('MenuScene')
+            this.scene.switch('MenuScene')
         })
         this.container.add(this.backBtn)
 

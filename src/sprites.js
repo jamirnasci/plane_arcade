@@ -14,11 +14,10 @@ export const loadSprites = (scene) => {
     scene.load.spritesheet('a6m', 'assets/img/enemys/a6m.png', {frameWidth: 256,frameHeight: 256})
     //boss
     scene.load.spritesheet('boss1', 'assets/img/enemys/boss1.png', {frameHeight: 256,frameWidth: 453})
-    scene.load.spritesheet('boss1_explosion', 'assets/img/enemys/boss1_explosion.png', {frameHeight: 256,frameWidth: 453})
     scene.load.spritesheet('helicopter_enemy', 'assets/img/enemys/helicopter_enemy.png', {frameHeight: 256,frameWidth: 256})
     scene.load.spritesheet('a20b', 'assets/img/enemys/a20b.png', {frameHeight: 256,frameWidth: 327})
     //maps
-    scene.load.image('ukranie', 'assets/img/levels/ukranie.png')
+    scene.load.image('ukraine', 'assets/img/levels/ukranie.png')
     scene.load.image('libia', 'assets/img/levels/libia.png')
     scene.load.image('japan', 'assets/img/levels/japan.jpg')
     //hud
@@ -38,6 +37,10 @@ export const loadSprites = (scene) => {
     scene.load.image('coin_50', 'assets/img/objects/coin_50.png')
     scene.load.image('life', 'assets/img/objects/life.png')
     scene.load.spritesheet('explosion_sprite', 'assets/img/objects/explosion_t.png', {frameWidth: 256, frameHeight: 256})
+    //menu
+    scene.load.image('pause_btn', 'assets/img/menu/pause_btn.png')
+    scene.load.image('exit_btn', 'assets/img/menu/exit_btn.png')
+    scene.load.image('continue_btn', 'assets/img/menu/continue_btn.png')
     //audio
     scene.load.audio('shoot', 'assets/audio/shoot.mp3')
     scene.load.audio('explosion', 'assets/audio/explosion.mp3')

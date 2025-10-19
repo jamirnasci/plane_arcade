@@ -14,15 +14,22 @@ import { LevelsScene } from "./scenes/levelsSelect";
 import { EndGameScene } from "./scenes/endgame";
 import { PlanesScene } from "./scenes/planeSelect";
 import { Coin } from "./sprites/coin";
+import { StageScene } from "./scenes/stageSelect";
 
-class MainScene extends Phaser.Scene {
+export class MainScene extends Phaser.Scene {
 
   constructor() {
     super({ key: 'MainScene' })
   }
   init(data) {
     this.level = LEVELS.list[data.level]
-    this.enemysN = this.level.enemyN
+    this.isArcade = data.isArcade
+    if(data.isArcade){
+      this.enemysN = 100000
+      this.arcadeMap = data.map
+    }else{
+      this.enemysN = this.level.enemyN
+    }
   }
   preload() {
     loadSprites(this)
@@ -48,7 +55,7 @@ class MainScene extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, 1920, 960)
     this.input.addPointer(3)
     this.sound.unlock()
-    this.bg = this.add.tileSprite(0, 0, 1920, 960, this.level.background)
+    this.bg = this.add.tileSprite(0, 0, 1920, 960, this.isArcade ? this.arcadeMap : this.level.background)
     this.bg.setOrigin(0, 0)
 
     loadHud(this, screenWidth, screenHeight)
@@ -64,7 +71,7 @@ class MainScene extends Phaser.Scene {
     //this.cameras.main.setZoom(1.2)
     this.enemys = this.physics.add.group({
       classType: Enemy,
-      maxSize: this.enemysN,
+      maxSize: 100,
       defaultKey: this.level.enemy,
       collideWorldBounds: true
     })
@@ -143,7 +150,8 @@ class MainScene extends Phaser.Scene {
     }).setScrollFactor(0)
     this.lifeHud.setStroke('#000', 4)
 
-    this.killsHud = this.add.text(90, 10, `🗡️ ${this.enemysKilled}/${this.enemysN}`, {
+    const killsHudTxt = this.isArcade ? `🗡️ ${this.enemysKilled}/--` : `🗡️ ${this.enemysKilled}/${this.enemysN}`
+    this.killsHud = this.add.text(90, 10, killsHudTxt, {
       fontSize: '30px',
       fill: '#fff',
       fontFamily: '"Jersey 10", sans-serif'
@@ -292,12 +300,13 @@ class MainScene extends Phaser.Scene {
             }
           }
 
-          if (this.enemysKilled >= this.level.enemyN && !this.level.boss) {
+          if ((this.enemysKilled >= this.level.enemyN && !this.isArcade) && !this.level.boss) {
             this.endGame('win')
           }
 
           if (!this.boss) {
-            this.killsHud.setText(`🗡️ ${this.enemysKilled}/${this.enemysN}`)
+            const killsHudTxtUpdate = this.isArcade ? `🗡️ ${this.enemysKilled}/--`: `🗡️ ${this.enemysKilled}/${this.enemysN}`
+            this.killsHud.setText(killsHudTxtUpdate)
           }
         })
       }
@@ -385,7 +394,7 @@ const game = new Phaser.Game({
   type: Phaser.AUTO,
   width: window.innerWidth,
   height: window.innerHeight,
-  scene: [MenuScene, PlanesScene, LevelsScene, EndGameScene, MainScene],
+  scene: [MenuScene, PlanesScene, LevelsScene, EndGameScene, MainScene, StageScene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
