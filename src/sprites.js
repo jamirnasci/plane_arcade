@@ -14,7 +14,7 @@ export const loadSprites = (scene) => {
     scene.load.spritesheet('a6m', 'assets/img/enemys/a6m.png', {frameWidth: 256,frameHeight: 256})
     //boss
     scene.load.spritesheet('boss1', 'assets/img/enemys/boss1.png', {frameHeight: 256,frameWidth: 453})
-    scene.load.spritesheet('helicopter_enemy', 'assets/img/enemys/helicopter_enemy.png', {frameHeight: 256,frameWidth: 256})
+    scene.load.spritesheet('uk127', 'assets/img/enemys/uk127.png', {frameHeight: 256,frameWidth: 256})
     scene.load.spritesheet('a20b', 'assets/img/enemys/a20b.png', {frameHeight: 256,frameWidth: 327})
     //maps
     scene.load.image('ukraine', 'assets/img/levels/ukranie.png')
@@ -31,6 +31,7 @@ export const loadSprites = (scene) => {
     scene.load.image('bullet2', 'assets/img/objects/bullet2.png')
     scene.load.image('bullet3', 'assets/img/objects/bullet3.png')
     scene.load.image('bullet4', 'assets/img/objects/bullet4.png')
+    scene.load.image('bullet5', 'assets/img/objects/bullet5.png')
     scene.load.image('coin', 'assets/img/objects/coin.png')
     scene.load.image('coin_10', 'assets/img/objects/coin_10.png')
     scene.load.image('coin_25', 'assets/img/objects/coin_25.png')

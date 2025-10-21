@@ -8,6 +8,7 @@ export class StageScene extends Phaser.Scene {
         this.load.image('libia', 'assets/img/levels/libia.png')
         this.load.image('japan', 'assets/img/levels/japan.jpg')
         this.load.image('select_btn', 'assets/img/menu/select_btn.png')
+        this.load.image('back_btn', 'assets/img/menu/back_btn.png')
     }
     create() {
 
@@ -24,8 +25,23 @@ export class StageScene extends Phaser.Scene {
         this.container = this.add.container(screenWidth / 2, screenHeight / 2)
         this.container.add(box)
 
+        this.backBtn = this.add.image(
+            -(this.container.getBounds().width / 2) + 40,
+            -(this.container.getBounds().height / 2) + 40,
+            'back_btn'
+        )
+        this.backBtn.setScale(0.2)
+        this.backBtn.setInteractive()
+        this.backBtn.on('pointerdown', () => {
+            this.scene.start('MenuScene')
+        })
+        this.container.add(this.backBtn)
+
         this.stageTitle = this.add.text(0, -150, 'libia', {
-            padding: 10
+            padding: 10,
+            fontSize: '40px',
+            fill: '#ffffffff',
+            fontFamily: '"Jersey 10", sans-serif'
         })
         this.stageTitle.setOrigin(0.5)
         this.container.add(this.stageTitle)
@@ -45,7 +61,7 @@ export class StageScene extends Phaser.Scene {
         this.selectBtn = this.add.image(0, 120, 'select_btn')
         this.selectBtn.setScale(0.2)
         this.selectBtn.setInteractive()
-        this.selectBtn.on('pointerdown', ()=>{
+        this.selectBtn.on('pointerdown', () => {
             this.scene.start('MainScene', {
                 level: 0,
                 isArcade: true,

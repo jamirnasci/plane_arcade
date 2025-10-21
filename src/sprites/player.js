@@ -13,12 +13,17 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this)
         scene.physics.add.existing(this)
 
-        scene.anims.create({
-            key: 'player-walk',
-            frames: scene.anims.generateFrameNumbers(texture, { start: 0, end: 3 }),
-            frameRate: 20,
-            repeat: -1
-        })
+        if(!this.anims.exists('player-walk')){
+
+            this.anims.create({
+                key: 'player-walk',
+                frames: this.anims.generateFrameNumbers(texture, { start: 0, end: 2 }),
+                frameRate: 20,
+                repeat: -1
+            })
+        }else{
+            this.anims.generateFrameNumbers(texture, {start: 0, end: 2})
+        }
         this.anims.play('player-walk', true)
 
         this.setScale(0.2)

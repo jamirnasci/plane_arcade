@@ -76,7 +76,9 @@ export const loadHud = (scene, screenWidth, screenHeight) => {
                 .setInteractive()
                 .setScrollFactor(0)
                 .setScale(0.2)
-                .on('pointerdown', () => {
+                .on('pointerdown', () => {    
+                    scene.physics.world.resume()                
+                    scene.time.paused = false
                     scene.endGame('loss')
                 })
             scene.continueBtn = scene.add.image(0, 0, 'continue_btn')

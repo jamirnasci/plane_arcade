@@ -16,15 +16,16 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
         this.setActive(true)
         this.setVisible(true)
-        this.setScale(0.8)       
+        this.setScale(0.8)
         this.shootDelay = 50
-        this.lastShootTime = 0       
-        this.isBoss = true 
+        this.lastShootTime = 0
+        this.isBoss = true
         this.setDrag(0.1)
-        if (!scene.anims.exists('boss-walk')) {
-            scene.anims.create({
+
+        if (!this.anims.exists('boss-walk')) {
+            this.anims.create({
                 key: 'boss-walk',
-                frames: scene.anims.generateFrameNumbers(texture, { start: 0, end: 3 }),
+                frames: this.anims.generateFrameNumbers(texture, { start: 0, end: 3 }),
                 repeat: -1,
                 frameRate: 20
             })
@@ -38,11 +39,14 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
     setDamage(bulletDamage = 1) {
         this.bulletDamage = bulletDamage
     }
+    setSpriteTexture(texture) {
+        this.anims.generateFrameNumbers(texture, {start: 0, end: 2})
+    }
     /**
      * 
      * @param {number} life 
      */
-    setLife(life){
+    setLife(life) {
         this.life = life
     }
     shoot() {
@@ -53,7 +57,7 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
             bullet.setVisible(true)
             bullet.body.enable = true
             bullet.setScale(0.1)
-            bullet.setTexture('bullet2')
+            bullet.setTexture('bullet5')
             bullet.setRotation(this.rotation)
             bullet.bulletDamage = this.bulletDamage
             bullet.isPlayerBullet = false
@@ -78,7 +82,7 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
             this.body.acceleration
         )
         const distanceOfPlayer = Phaser.Math.Distance.Between(this.scene.player.x, this.scene.player.y, this.x, this.y)
-        
+
         if ((this.shootDelay < (time - this.lastShootTime)) && distanceOfPlayer < 300) {
             this.shoot()
             this.lastShootTime = time

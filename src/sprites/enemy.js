@@ -18,15 +18,16 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
         this.setScale(0.2)
 
-        if (!scene.anims.exists('enemy-walk')) {
-
-            scene.anims.create({
+        if (!this.anims.exists('enemy-walk')) {
+            this.anims.create({
                 key: 'enemy-walk',
-                frames: scene.anims.generateFrameNumbers(texture, { start: 0, end: 3 }),
+                frames: this.anims.generateFrameNumbers(texture, { start: 0, end: 2 }),
                 frameRate: 20,
                 repeat: -1
             })
-        }
+        }else{
+            this.anims.generateFrameNumbers(texture, {start: 0, end: 2})
+        }        
         this.anims.play('enemy-walk', true)
     }
     /**
@@ -95,6 +96,9 @@ export class Enemy extends Phaser.Physics.Arcade.Sprite {
     }
     setLife(life) {
         this.life = life
+    }
+    setSpriteTexture(texture){
+        this.anims.generateFrameNumbers(texture, {start: 0, end: 2})
     }
     /**
      * 

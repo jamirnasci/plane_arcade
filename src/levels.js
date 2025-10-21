@@ -202,10 +202,108 @@ export class LEVELS {
             enemyLife: 10
         },
         // ukraine
-                {
+        {
             background: 'ukraine',
             boss: null,
             bossN: 0,
+            bossLife: 100,
+            enemy: 'fw190',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 20
+        },
+        {
+            background: 'ukraine',
+            boss: null,
+            bossN: 0,
+            bossLife: 100,
+            enemy: 'fw190',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 20
+        },
+        // ukraine
+        {
+            background: 'ukraine',
+            boss: null,
+            bossN: 0,
+            bossLife: 100,
+            enemy: 'fw190',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 20
+        },
+        // ukraine
+        {
+            background: 'ukraine',
+            boss: null,
+            bossN: 0,
+            bossLife: 100,
+            enemy: 'fw190',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 20
+        },
+        // ukraine
+        {
+            background: 'ukraine',
+            boss: null,
+            bossN: 0,
+            bossLife: 100,
+            enemy: 'fw190',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 20
+        },
+        // ukraine
+        {
+            background: 'ukraine',
+            boss: null,
+            bossN: 0,
+            bossLife: 100,
+            enemy: 'fw190',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 20
+        },
+        // ukraine
+        {
+            background: 'ukraine',
+            boss: null,
+            bossN: 0,
+            bossLife: 100,
+            enemy: 'fw190',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 20
+        },
+        // ukraine
+        {
+            background: 'ukraine',
+            boss: 'uk127',
+            bossN: 1,
+            bossLife: 100,
+            enemy: 'fw190',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 20
+        },
+        // ukraine
+        {
+            background: 'ukraine',
+            boss: 'uk127',
+            bossN: 2,
+            bossLife: 100,
+            enemy: 'fw190',
+            enemyN: 10,
+            enemyDamage: 2,
+            enemyLife: 20
+        },
+        // ukraine
+        {
+            background: 'ukraine',
+            boss: 'uk127',
+            bossN: 4,
             bossLife: 100,
             enemy: 'fw190',
             enemyN: 10,

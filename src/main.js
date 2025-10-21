@@ -58,23 +58,24 @@ export class MainScene extends Phaser.Scene {
     this.bg = this.add.tileSprite(0, 0, 1920, 960, this.isArcade ? this.arcadeMap : this.level.background)
     this.bg.setOrigin(0, 0)
 
-    loadHud(this, screenWidth, screenHeight)
-
+    
     this.player = new Player(this, 300, 400, this.plane.texture)
     this.player.setMaxVelocity(this.plane.maxVelocity)
-    this.player.setExplosionTexture(this.plane.explosionTexture)
     this.player.setBulletTexture(this.plane.bulletTexture)
     this.life = this.plane.life
-
+    
+    loadHud(this, screenWidth, screenHeight)
+    
     this.cameras.main.setBounds(0, 0, 1920, 960)
     this.cameras.main.startFollow(this.player, true, 0.08, 0.08)
-    //this.cameras.main.setZoom(1.2)
+  
     this.enemys = this.physics.add.group({
       classType: Enemy,
       maxSize: 100,
       defaultKey: this.level.enemy,
       collideWorldBounds: true
     })
+
     this.bullets = new Bullet(this)
     if (this.level.boss) {
       this.bossGroup = this.physics.add.group({
@@ -257,6 +258,7 @@ export class MainScene extends Phaser.Scene {
       enemy.setVisible(true)
       enemy.setDamage(this.level.enemyDamage)
       enemy.setLife(this.level.enemyLife)
+      enemy.setSpriteTexture(this.level.enemy)
       enemy.body.enable = true
       this.physics.moveToObject(enemy, this.player, 100)
     }
@@ -354,6 +356,7 @@ export class MainScene extends Phaser.Scene {
         boss.setActive(true)
         boss.setDamage(10)
         boss.setLife(this.level.bossLife)
+        boss.setSpriteTexture(this.level.boss)
         boss.body.enable = true
         this.physics.moveToObject(boss, this.player, 100)
       }

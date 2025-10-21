@@ -53,7 +53,7 @@ export class LevelsScene extends Phaser.Scene {
         this.pages = []
 
         let pageAux = []
-        for (let i = 0; i < LEVELS.list.length; i++) {
+        for (let i = 0; i <= LEVELS.list.length; i++) {
             if (i % 10 == 0 && i != 0) {
                 this.pages.push(pageAux)
                 pageAux = []
@@ -116,7 +116,7 @@ export class LevelsScene extends Phaser.Scene {
         let x = 0
         this.pages[pageIndex].forEach((item, i) => {
             const txt = this.add.text(i * 60, -20, `${item + 1}`, {
-                backgroundColor: item < 10 ? '#15ff00ff' : item < 20 ? '#002fffff' : '#000000ff',
+                backgroundColor: item < 10 ? '#15ff00ff' : item < 20 ? '#002fffff' : '#1d3c64ff',
                 padding: 5,
                 fontFamily: '"Jersey 10", sans-serif',
                 fixedWidth: 50,
