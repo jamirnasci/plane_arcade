@@ -5,17 +5,19 @@ export const loadSprites = (scene) => {
     scene.load.spritesheet('hawker', 'assets/img/players/hawker.png', {frameWidth: 256, frameHeight: 256})
     scene.load.spritesheet('p40', 'assets/img/players/p40.png', {frameWidth: 256,frameHeight: 256})
     scene.load.spritesheet('helicopter', 'assets/img/players/helicopter.png', {frameWidth: 256,frameHeight: 256})
-    scene.load.spritesheet('hellcat', 'assets/img/players/hellcat.png', {frameWidth: 330,frameHeight: 256})
+    scene.load.spritesheet('hellcat', 'assets/img/players/hellcat.png', {frameWidth: 256,frameHeight: 256})
     scene.load.spritesheet('yak3', 'assets/img/players/yak3.png', {frameWidth: 256,frameHeight: 256})
     //enemys
     scene.load.spritesheet('bf109', 'assets/img/enemys/bf109.png', {frameWidth: 256,frameHeight: 256})
+    scene.load.spritesheet('bf147', 'assets/img/enemys/bf147.png', {frameWidth: 256,frameHeight: 256})
     scene.load.spritesheet('helicopter_enemy', 'assets/img/enemys/helicopter_enemy.png', {frameWidth: 256,frameHeight: 256})
     scene.load.spritesheet('fw190', 'assets/img/enemys/fw190.png', {frameWidth: 265,frameHeight: 256})
+    scene.load.spritesheet('uk127', 'assets/img/enemys/uk127.png', {frameWidth: 256,frameHeight: 256})
     scene.load.spritesheet('a6m', 'assets/img/enemys/a6m.png', {frameWidth: 256,frameHeight: 256})
     //boss
     scene.load.spritesheet('boss1', 'assets/img/enemys/boss1.png', {frameHeight: 256,frameWidth: 453})
-    scene.load.spritesheet('uk127', 'assets/img/enemys/uk127.png', {frameHeight: 256,frameWidth: 256})
-    scene.load.spritesheet('a20b', 'assets/img/enemys/a20b.png', {frameHeight: 256,frameWidth: 327})
+    scene.load.spritesheet('uk100', 'assets/img/enemys/uk100.png', {frameHeight: 256,frameWidth: 256})
+    scene.load.spritesheet('helicopter_boss', 'assets/img/enemys/helicopter_boss.png', {frameHeight: 256,frameWidth: 256})
     //maps
     scene.load.image('ukraine', 'assets/img/levels/ukranie.png')
     scene.load.image('libia', 'assets/img/levels/libia.png')
