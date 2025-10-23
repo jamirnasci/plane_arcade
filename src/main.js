@@ -15,11 +15,22 @@ import { EndGameScene } from "./scenes/endgame";
 import { PlanesScene } from "./scenes/planeSelect";
 import { Coin } from "./sprites/coin";
 import { StageScene } from "./scenes/stageSelect";
+import { initialize } from "./ads/adsInitalize";
+import { banner } from "./ads/banner";
+import { AdMob } from "@capacitor-community/admob";
+
+(async ()=>{
+  await initialize()
+})()
 
 export class MainScene extends Phaser.Scene {
 
   constructor() {
     super({ key: 'MainScene' })
+    if(!localStorage.getItem('planes')){
+      localStorage.setItem('planes', 0)
+      localStorage.setItem('plane', 0)
+    }
   }
   init(data) {
     this.level = LEVELS.list[data.level]
@@ -356,6 +367,7 @@ export class MainScene extends Phaser.Scene {
         boss.setActive(true)
         boss.setDamage(10)
         boss.setLife(this.level.bossLife)
+        boss.setBulletTexture(this.level.bossBullet)
         boss.setSpriteTexture(this.level.boss)
         boss.body.enable = true
         this.physics.moveToObject(boss, this.player, 100)
@@ -371,6 +383,7 @@ export class MainScene extends Phaser.Scene {
     });
   }
   endGame(result) {
+    AdMob.removeBanner()
     this.planeEngineSound.stop()
     this.player.setVelocity(0)
     this.player.setActive(false)
@@ -379,7 +392,9 @@ export class MainScene extends Phaser.Scene {
       result: result,
       coins: this.collectedCoins,
       kills: this.enemysKilled,
-      level: LEVELS.list.indexOf(this.level)
+      level: LEVELS.list.indexOf(this.level),
+      isArcade: this.isArcade,
+      map: this.arcadeMap
     })
 
     /*

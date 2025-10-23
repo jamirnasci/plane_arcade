@@ -72,7 +72,7 @@ export const loadHud = (scene, screenWidth, screenHeight) => {
                 .setScrollFactor(0)
                 .setStroke('#000', 4)
             scene.pauseTitle.x -= scene.pauseTitle.width / 2
-            scene.exitBtn = scene.add.image(0, 50, 'exit_btn')
+            scene.exitBtn = scene.add.image(0, 40, 'exit_btn')
                 .setInteractive()
                 .setScrollFactor(0)
                 .setScale(0.2)

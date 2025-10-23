@@ -19,11 +19,19 @@ export class PlanesScene extends Phaser.Scene {
         const screenHeight = window.innerHeight
         const screenWidth = window.innerWidth
 
+        this.unlockedPlanes = localStorage.getItem('planes').split('')
         // Fundo
         this.bg = this.add.tileSprite(0, 0, screenWidth, screenHeight, 'bg').setOrigin(0)
+        const storageCoins = localStorage.getItem('coins') == null ? 0 : parseInt(localStorage.getItem('coins'))
 
+        this.menuCoins = this.add.text(10, 10, `🪙 ${storageCoins}`, {
+            fontSize: '30px',
+            fill: '#fff',
+            fontFamily: '"Jersey 10", sans-serif'
+        }).setScrollFactor(0)
+        this.menuCoins.setStroke('#000', 4)
         // Fundo da caixa
-        const boxWidth = 400
+        const boxWidth = 350
         const boxHeight = 300
         const background = this.add.rectangle(0, 0, boxWidth, boxHeight, 0x000000, 0.7).setOrigin(0.5)
         background.setRounded(20)
@@ -38,15 +46,37 @@ export class PlanesScene extends Phaser.Scene {
         })
         this.levelTitle.x -= this.levelTitle.width / 2
         this.levelTitle.setStroke('#000', 4)
-
         this.planeIndex = 0
-
         if (this.anims.exists('player-walk')) {
             this.anims.remove('player-walk')
         }
         this.plane = new Player(this, 0, -10, PLANES[this.planeIndex].texture)
         this.plane.setScale(0.5)
         this.container.add(this.plane)
+
+        this.buyBtn = this.add.text(screenWidth / 2, screenHeight / 2, '', {
+            fontSize: '20px',
+            fill: '#ffffffff',
+            fontFamily: '"Jersey 10", sans-serif',
+            backgroundColor: '#25ac03ff',
+            padding: 5,
+            fixedWidth: 100,
+            align: 'center'
+        })
+            .setStroke('#000', 4)
+            .setInteractive()
+            .setVisible(false)        
+            .setOrigin(0.5)
+            .on('pointerdown', () => {
+                if(storageCoins > PLANES[this.planeIndex].price){
+                    localStorage.setItem('planes', `${localStorage.getItem('planes')}${this.planeIndex}`)
+                    this.buyBtn.setVisible(false)
+                    this.plane.clearTint()
+                    localStorage.setItem('coins', parseInt(localStorage.getItem('coins')) - PLANES[this.planeIndex].price)
+                    localStorage.setItem('plane', this.planeIndex)
+                    this.scene.start('MenuScene')
+                }
+            })
 
         this.planeName = this.add.text(0, -100, PLANES[this.planeIndex].texture, {
             fontFamily: '"Jersey 10", sans-serif',
@@ -71,8 +101,10 @@ export class PlanesScene extends Phaser.Scene {
         this.selectBtn.setScale(0.2)
         this.selectBtn.setInteractive()
         this.selectBtn.on('pointerdown', () => {
-            localStorage.setItem('plane', this.planeIndex)
-            this.scene.start('MenuScene')
+            if(localStorage.getItem('planes').split('').indexOf(`${this.planeIndex}`) != -1){
+                localStorage.setItem('plane', this.planeIndex)
+                this.scene.start('MenuScene')
+            }
         })
         this.container.add(this.selectBtn)
 
@@ -102,6 +134,15 @@ export class PlanesScene extends Phaser.Scene {
             this.plane.setScale(0.5)
             this.planeName.setText(PLANES[this.planeIndex].texture)
             this.container.add(this.plane)
+            if (this.unlockedPlanes.indexOf(`${this.planeIndex}`) == -1) {
+                this.plane.setTint(0x00666666)
+                this.buyBtn.setText(`🪙 ${PLANES[this.planeIndex].price}`)
+                this.buyBtn.setVisible(true)
+                this.selectBtn.setVisible(false)
+            }else{
+                this.buyBtn.setVisible(false)
+                this.selectBtn.setVisible(true)
+            }
         })
 
         this.nextPage = this.add.text(5, 0, '>', {
@@ -123,6 +164,15 @@ export class PlanesScene extends Phaser.Scene {
             this.plane.setScale(0.5)
             this.planeName.setText(PLANES[this.planeIndex].texture)
             this.container.add(this.plane)
+            if (this.unlockedPlanes.indexOf(`${this.planeIndex}`) == -1) {
+                this.plane.setTint(0x00666666)
+                this.buyBtn.setText(`🪙 ${PLANES[this.planeIndex].price}`)
+                this.selectBtn.setVisible(false)
+                this.buyBtn.setVisible(true)
+            }else{
+                this.buyBtn.setVisible(false)
+                this.selectBtn.setVisible(true)
+            }
         })
 
         this.pageSwitchContainer = this.add.container(0, this.container.height + 100)

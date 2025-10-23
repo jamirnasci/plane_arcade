@@ -1,3 +1,5 @@
+import { AdMob } from "@capacitor-community/admob"
+import { banner } from "../ads/banner"
 import { PLANES } from "../planes"
 import { loadSprites } from "../sprites"
 import { Player } from "../sprites/player"
@@ -16,9 +18,11 @@ export class MenuScene extends Phaser.Scene {
         this.load.image('exit_btn', 'assets/img/menu/exit_btn.png')
         this.load.image('bg', 'assets/img/menu/menu_bg.png')
     }
-    create() {
+    async create() {
+        
         this.bg = this.add.tileSprite(0, 0, 1536, 1024, 'bg')
         this.bg.setOrigin(0, 0)
+        await banner()
 
         const storageCoins = localStorage.getItem('coins') == null ? 0 : parseInt(localStorage.getItem('coins'))
 
@@ -62,6 +66,7 @@ export class MenuScene extends Phaser.Scene {
         this.playBtn.setInteractive()
         this.playBtn.setScale(btnScale)
         this.playBtn.on('pointerdown', () => {
+            AdMob.removeBanner()
             this.scene.start('LevelsScene')
         })
 
@@ -69,6 +74,7 @@ export class MenuScene extends Phaser.Scene {
         this.planesBtn.setInteractive()
         this.planesBtn.setScale(btnScale)
         this.planesBtn.on('pointerdown', () => {
+            AdMob.removeBanner()
             this.scene.start('PlanesScene')
         })
 
@@ -76,6 +82,7 @@ export class MenuScene extends Phaser.Scene {
         this.arcadeBtn.setInteractive()
         this.arcadeBtn.setScale(btnScale)
         this.arcadeBtn.on('pointerdown', () => {
+            AdMob.removeBanner()
             this.scene.start('StageScene')
             //{level: 0, isArcade: true}
         })

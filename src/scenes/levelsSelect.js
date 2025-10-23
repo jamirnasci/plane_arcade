@@ -18,7 +18,7 @@ export class LevelsScene extends Phaser.Scene {
         this.bg = this.add.tileSprite(0, 0, screenWidth, screenHeight, 'bg').setOrigin(0)
 
         // Fundo da caixa
-        const boxWidth = 400
+        const boxWidth = 350
         const boxHeight = 300
         const background = this.add.rectangle(0, 0, boxWidth, boxHeight, 0x000000, 0.7).setOrigin(0.5)
         background.setRounded(20)

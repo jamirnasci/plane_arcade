@@ -32,6 +32,9 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
         }
         this.anims.play('boss-walk', true)
     }
+    setBulletTexture(texture){
+        this.bulletTexture = texture
+    }
     /**
  * 
  * @param {number} bulletDamage 
@@ -57,7 +60,7 @@ export class Boss extends Phaser.Physics.Arcade.Sprite {
             bullet.setVisible(true)
             bullet.body.enable = true
             bullet.setScale(0.1)
-            bullet.setTexture('bullet5')
+            bullet.setTexture(this.bulletTexture)
             bullet.setRotation(this.rotation)
             bullet.bulletDamage = this.bulletDamage
             bullet.isPlayerBullet = false

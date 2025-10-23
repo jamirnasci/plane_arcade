@@ -19,7 +19,7 @@ export class StageScene extends Phaser.Scene {
         this.bg = this.add.image(0, 0, 'bg')
         this.bg.setOrigin(0, 0)
 
-        const box = this.add.rectangle(0, 0, 500, 500, 0x00000, 0.7)
+        const box = this.add.rectangle(0, 0, 350, 370, 0x00000, 0.7)
         box.setRounded(20)
 
         this.container = this.add.container(screenWidth / 2, screenHeight / 2)
@@ -46,17 +46,18 @@ export class StageScene extends Phaser.Scene {
         this.stageTitle.setOrigin(0.5)
         this.container.add(this.stageTitle)
         this.stageImg = this.add.image(0, 0, mapsList[0])
-        this.stageImg.setScale(0.2)
+        this.stageImg.setScale(0.15)
         this.container.add(this.stageImg)
 
         let mapIndex = 0
         this.switchStageContainer = this.add.container(0, 150)
-        this.nextStageBtn = this.add.text(50, 0, '>', {
+        this.nextStageBtn = this.add.text(5, 0, '>', {
             fixedWidth: 50,
             backgroundColor: '#33ff00ff',
             color: '#000',
             align: 'center',
             padding: 5,
+            fontFamily: '"Jersey 10", sans-serif'
         })
         this.selectBtn = this.add.image(0, 120, 'select_btn')
         this.selectBtn.setScale(0.2)
@@ -77,12 +78,13 @@ export class StageScene extends Phaser.Scene {
             this.stageImg.setTexture(mapsList[mapIndex])
             this.stageTitle.setText(mapsList[mapIndex])
         })
-        this.previousStageBtn = this.add.text(-100, 0, '<', {
+        this.previousStageBtn = this.add.text(-55, 0, '<', {
             fixedWidth: 50,
             backgroundColor: '#33ff00ff',
             color: '#000',
             align: 'center',
-            padding: 5
+            padding: 5,
+            fontFamily: '"Jersey 10", sans-serif'
         })
         this.previousStageBtn.setInteractive()
         this.previousStageBtn.on('pointerdown', () => {

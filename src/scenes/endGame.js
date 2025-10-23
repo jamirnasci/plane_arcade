@@ -1,3 +1,4 @@
+import { interstitial } from "../ads/interstitial"
 import { LEVELS } from "../levels"
 
 export class EndGameScene extends Phaser.Scene {
@@ -9,6 +10,7 @@ export class EndGameScene extends Phaser.Scene {
         this.load.image('bg', 'assets/img/menu/menu_bg.png')
         this.load.image('menu_btn', 'assets/img/menu/menu_btn.png')
         this.load.image('playagain_btn', 'assets/img/menu/playagain_btn.png')
+        this.load.image('levels_btn', 'assets/img/menu/levels_btn.png')
     }
 
     init(data) {
@@ -16,14 +18,17 @@ export class EndGameScene extends Phaser.Scene {
         this.kills = data.kills || 0
         this.coins = data.coins || 0
         this.level = data.level || 0
-        if(!localStorage.getItem('coins')){
+        this.map = data.map
+        this.isArcade = data.isArcade
+        if (!localStorage.getItem('coins')) {
             localStorage.setItem('coins', data.coins)
-        }else{
+        } else {
             localStorage.setItem('coins', parseInt(localStorage.getItem('coins')) + data.coins)
         }
     }
 
     create() {
+        interstitial()
         const screenHeight = this.scale.height
         const screenWidth = this.scale.width
         const btnScale = 0.3
@@ -31,8 +36,8 @@ export class EndGameScene extends Phaser.Scene {
         this.bg = this.add.tileSprite(0, 0, screenWidth, screenHeight, 'bg').setOrigin(0)
 
         // Fundo da caixa
-        const boxWidth = 400
-        const boxHeight = 300
+        const boxWidth = 350
+        const boxHeight = 320
         const background = this.add.rectangle(0, 0, boxWidth, boxHeight, 0x000000, 0.7).setOrigin(0.5)
         background.setRounded(20)
         // Container centralizado
@@ -60,26 +65,37 @@ export class EndGameScene extends Phaser.Scene {
         this.coinsCount = this.add.text(0, -70, `Coins ${this.coins}`, {
             fontSize: '30px',
             fill: '#ecd92cff',
-            fontFamily: '"Jersey 10", sans-serif'            
+            fontFamily: '"Jersey 10", sans-serif'
         })
         this.coinsCount.x = this.coinsCount.x - (this.coinsCount.width / 2)
         this.container.add(this.coinsCount)
 
-        
         this.playAgain = this.add.image(0, 0, 'playagain_btn')
         this.playAgain.setScale(btnScale)
         this.playAgain.setInteractive()
         this.playAgain.on('pointerdown', () => {
-            this.scene.start('MainScene', {level: this.level})                        
+            this.scene.start('MainScene', {
+                level: this.level,
+                isArcade: this.isArcade,
+                map: this.map
+            })
         })
-        this.container.add(this.playAgain)   
+        this.container.add(this.playAgain)
 
-        this.menuBtn = this.add.image(0, this.playAgain.y + 60, 'menu_btn')
+        this.levelsBtn = this.add.image(0, this.playAgain.y + 60, 'levels_btn')
+        this.levelsBtn.setScale(btnScale)
+        this.levelsBtn.setInteractive()
+        this.levelsBtn.on('pointerdown', () => {
+            this.scene.start('LevelsScene')
+        })
+        this.container.add(this.levelsBtn)
+
+        this.menuBtn = this.add.image(0, this.playAgain.y + 120, 'menu_btn')
         this.menuBtn.setScale(btnScale)
         this.menuBtn.setInteractive()
         this.menuBtn.on('pointerdown', () => {
             this.scene.start('MenuScene')
         })
-        this.container.add(this.menuBtn)     
+        this.container.add(this.menuBtn)
     }
 }
